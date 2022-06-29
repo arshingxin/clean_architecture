@@ -8,6 +8,5 @@ object SettingConfig {
         const val USER = ""
         const val PA = ""
         val AUTHORIZATION = ""
-        val TEST = ""
     }
 }
