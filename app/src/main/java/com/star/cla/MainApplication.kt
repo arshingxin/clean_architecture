@@ -36,10 +36,16 @@ class MainApplication: MultiDexApplication(), Application.ActivityLifecycleCallb
     private val appSharedPreferences: SharedPreferences by inject(named(PrefsConst.App.NAME))
 
     companion object {
-        private lateinit var context: Context
+        private var context: Context? = null
         private var mainThreadHandler = Looper.myLooper()?.let { Handler(it) }
+        private var appSharedPreferences: SharedPreferences? = null
+
         fun getApplicationContext() = context
-        fun getMainThreadHandler() = mainThreadHandler
+
+        fun getSharePreferences(): SharedPreferences? = context?.getSharedPreferences(PrefsConst.App.NAME, MODE_PRIVATE)
+
+        fun getExternalFilePath() = context?.getExternalFilesDir(null)?.absolutePath ?: ""
+
         fun uiThread(block: () -> Unit) {
             mainThreadHandler?.post {
                 block.invoke()
@@ -57,11 +63,11 @@ class MainApplication: MultiDexApplication(), Application.ActivityLifecycleCallb
 
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
-        val crashPath = "${getExternalFilesDir(null)}/log/crash"
+        val crashPath = "${getExternalFilePath()}/log/crash"
         crashPath.createDirIfNotExists()
         val callback = ICrashCallback { logPath, emergency ->
             val isNative = File(logPath).readFileAndContainKeyWord("Crash type: 'native'")
-            logStarError("logPath: $logPath, emergency: $emergency, isNative: $isNative")
+            logStarError(TAG, "logPath: $logPath, emergency: $emergency, isNative: $isNative")
             // TODO
         }
         val params = XCrash.InitParameters()
@@ -110,7 +116,7 @@ class MainApplication: MultiDexApplication(), Application.ActivityLifecycleCallb
     override fun onActivityStopped(activity: Activity) {
         isActivityChangingConfigurations = activity.isChangingConfigurations
         if (--activityReferences == 0 && !isActivityChangingConfigurations) {
-            if (DEBUG) logStar("onActivityStopped:: Background")
+            if (DEBUG) logStar(TAG, "onActivityStopped:: Background")
             // 離開app將log寫入檔案
             ForegroundBackgroundStatus.setIsBackground(true)
             ForegroundBackgroundStatus.post(ForegroundBackgroundStatus.Status.Background)

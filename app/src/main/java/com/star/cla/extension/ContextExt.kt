@@ -130,7 +130,7 @@ fun Context.getCurrentVolume(): Float {
 }
 
 fun Context.setVolume(volume: Int, type: Int = AudioManager.STREAM_MUSIC) {
-    if (DEBUG) logStar("setVolume:: $volume")
+    if (DEBUG) logStar(TAG, "setVolume:: $volume")
     Log.d(TAG, "setVolume:: $volume")
     val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
     // release 才設定預設音量
@@ -157,7 +157,7 @@ fun Context.getAllAppList(): List<ResolveInfo> {
 
 fun Context.setScreenBrightness(screenBrightness: Int = getScreenBrightness()) {
     if (!isCanWriteSettings() || screenBrightness == -1) return
-    if (DEBUG) logStar("setScreenBrightness:$screenBrightness")
+    if (DEBUG) logStar(TAG, "setScreenBrightness:$screenBrightness")
     Settings.System.putInt(
         contentResolver,
         Settings.System.SCREEN_BRIGHTNESS,

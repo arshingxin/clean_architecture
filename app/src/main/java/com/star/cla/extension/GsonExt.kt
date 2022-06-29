@@ -21,25 +21,25 @@ inline fun <reified T> Gson.fromJson(json: String): T = fromJson(json, object : 
 
 fun String?.isJson(): Boolean {
     if (this.isNullOrEmpty()) return false
-    if (DEBUG) logStar("isJson:: $this")
+    if (DEBUG) logStar(TAG, "isJson:: $this")
     var jsonObject: JSONObject? = null
     try {
         jsonObject = JSONObject(this)
     } catch (e: Exception) {
-        logStarError("error: ${e.message}, json: $this")
+        logStarError(TAG, "error: ${e.message}, json: $this")
     }
     return jsonObject != null
 }
 
 fun String?.isJsonArray(): Boolean {
     if (isNullOrEmpty()) return false
-    if (DEBUG) logStar("isJsonArray:: $this")
+    if (DEBUG) logStar(TAG, "isJsonArray:: $this")
     var jsonArray: JSONArray? = null
     try {
         jsonArray = JSONArray(this)
     } catch (e: Exception) {
-        logStarError(e.message.toString())
-        logStarError("error: ${e.message}, json: $this")
+        logStarError(TAG, e.message.toString())
+        logStarError(TAG, "error: ${e.message}, json: $this")
     }
     return jsonArray != null
 }

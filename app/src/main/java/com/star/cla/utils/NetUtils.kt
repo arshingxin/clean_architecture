@@ -27,7 +27,7 @@ object NetUtils {
                 return res1.toString()
             }
         } catch (ex: Exception) {
-            logStarError(ex.message)
+            logStarError(TAG, ex.message)
         }
         return ERROR_MAC
     }

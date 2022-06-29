@@ -20,21 +20,21 @@ class DashboardViewModel(private val deviceInfoUseCase: IDeviceInfoUseCase) : Au
 
     override fun resume() {
         val key = "resume"
-        if (DEBUG) logStar("resume AppConfig.Device.SN:${AppConfig.Device.SN}")
+        if (DEBUG) logStar(TAG, "resume AppConfig.Device.SN:${AppConfig.Device.SN}")
         deviceInfoUseCase.getDeviceInfo(AppConfig.Device.SN)
             .map {
-                if (DEBUG) logStar(it.toJson())
+                if (DEBUG) logStar(TAG, "getDeviceInfo:${it.toJson()}")
             }
             .subscribeOn(Schedulers.io())
             .add(key, TAG)
     }
 
     override fun pause() {
-        if (DEBUG) logStar("pause")
+        if (DEBUG) logStar(TAG, "pause")
     }
 
     override fun destroy() {
-        if (DEBUG) logStar("destroy")
+        if (DEBUG) logStar(TAG, "destroy")
         onCleared()
     }
 }

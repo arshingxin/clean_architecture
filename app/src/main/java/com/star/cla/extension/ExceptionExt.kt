@@ -15,7 +15,7 @@ fun Exception.getExceptionMessage(callBackMsg: ((String) -> Unit?)? = null) {
     printStackTrace(pw)
     val errorMsg = sw.toString()
     callBackMsg?.invoke(errorMsg)
-    logStarError(errorMsg)
+    logStarError(TAG, errorMsg)
     sw.close()
     pw.close()
 }

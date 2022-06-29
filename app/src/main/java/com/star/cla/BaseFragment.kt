@@ -10,24 +10,24 @@ open class BaseFragment: Fragment(), LoadingView {
     private val DEBUG = true
 
     override fun showLoading() {
-        if (DEBUG) logStar("showLoading")
+        if (DEBUG) logStar(TAG, "showLoading")
     }
 
     override fun hideLoading() {
-        if (DEBUG) logStar("hideLoading")
+        if (DEBUG) logStar(TAG, "hideLoading")
     }
 
     override fun showRetry() {
-        if (DEBUG) logStar("showRetry")
+        if (DEBUG) logStar(TAG, "showRetry")
     }
 
     override fun hideRetry() {
-        if (DEBUG) logStar("hideRetry")
+        if (DEBUG) logStar(TAG, "hideRetry")
     }
 
     override fun showToast(errorMsg: String) {
-        if (DEBUG) logStar("showErrorToast $errorMsg")
-        MainApplication.getMainThreadHandler()?.post {
+        if (DEBUG) logStar(TAG, "showErrorToast $errorMsg")
+        MainApplication.uiThread {
             Toast.makeText(activity, errorMsg, Toast.LENGTH_SHORT).show()
         }
     }

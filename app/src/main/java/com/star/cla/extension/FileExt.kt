@@ -28,7 +28,7 @@ fun File.createDirIfNotExists(): Boolean {
             ret = if (absoluteFile.startsWith("/null")) {
                 false
             } else {
-                logStarError("createDirIfNotExists fail:: $absolutePath")
+                logStarError(TAG, "createDirIfNotExists fail:: $absolutePath")
                 false
             }
         }
@@ -58,7 +58,7 @@ fun String.copyTo(
     fileCopyFinishedAction: (Pair<String, String>) -> Unit,
     finishAction: ((Boolean) -> Unit?)? = null
 ) {
-    if (DEBUG) logStar("[${isFileExist()}]$this copy to $newFilePath")
+    if (DEBUG) logStar(TAG, "[${isFileExist()}]$this copy to $newFilePath")
     if (isFileExist()) {
         fileCopyFinishedAction.invoke(Pair(this, newFilePath))
         File(this).copyTo(File(newFilePath), true)
@@ -106,7 +106,7 @@ fun File.fileToBitmap(): Observable<Bitmap> {
             try {
                 val bitmap = BitmapFactory.decodeStream(inputStream())
                 val msg = "$absolutePath 檔案轉成Bitmap成功"
-                if (DEBUG) logStar(msg)
+                if (DEBUG) logStar(TAG, msg)
                 Log.i(TAG, msg)
                 FileToBitmapStatus.Success(bitmap)
             } catch (e: Exception) {
@@ -139,7 +139,7 @@ fun InputStream.copyToFilePath(filePath: String): Observable<File> {
                 val file = File(filePath)
                 file.outputStream().use { this.copyTo(it) }
                 val msg = "${file.absolutePath} 檔案複製成功"
-                if (DEBUG) logStar(msg)
+                if (DEBUG) logStar(TAG, msg)
                 Log.i(TAG, msg)
                 CopyToFilePathStatus.Success(file)
             } catch (e: Exception) {
@@ -173,7 +173,7 @@ fun MutableList<InputStream>.copyRawToFilePath(filePathList: MutableList<String>
         }
         .map {
             val msg = "${it.absolutePath} 檔案複製成功"
-            if (DEBUG) logStar(msg)
+            if (DEBUG) logStar(TAG, msg)
             Log.i(TAG, msg)
         }
         .subscribeOn(io())
@@ -193,7 +193,7 @@ fun MutableList<Int>.copyRawToFilePath(res: Resources, filePathList: MutableList
         }
         .map {
             val msg = "${it.absolutePath} 檔案複製成功"
-            if (DEBUG) logStar(msg)
+            if (DEBUG) logStar(TAG, msg)
             Log.i(TAG, msg)
         }
         .subscribeOn(io())

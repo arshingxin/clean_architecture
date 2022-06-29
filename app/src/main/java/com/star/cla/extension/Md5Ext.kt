@@ -12,21 +12,21 @@ private val DEBUG = false
 
 fun String?.compareMD5(file: File, name: String? = "", exceptionAction: ((String) -> Unit)? = null): Boolean {
     if (this.isNullOrEmpty() || !file.exists()) {
-        logStarError("compareMD5 file:: $file")
-        logStarError("compareMD5 server 的MD5:: $this")
-        logStarError("compareMD5 本地檔案是否存在:: ${file.exists()}, filePath:: ${file.absolutePath}")
-        logStarError("compareMD5 本地檔案名稱:: $name")
+        logStarError(TAG, "compareMD5 file:: $file")
+        logStarError(TAG, "compareMD5 server 的MD5:: $this")
+        logStarError(TAG, "compareMD5 本地檔案是否存在:: ${file.exists()}, filePath:: ${file.absolutePath}")
+        logStarError(TAG, "compareMD5 本地檔案名稱:: $name")
         if (file.exists()) file.delete()
         return false
     }
-    if(DEBUG) logStar("compareMD5 server的MD5:: $this")
+    if(DEBUG) logStar(TAG, "compareMD5 server的MD5:: $this")
     val md = MessageDigest.getInstance("MD5")
     var inputStream: FileInputStream? = null
     var fileMD5: String? = null
     try {
         inputStream = FileInputStream(file)
     } catch (e: Exception) {
-        logStarError(e.message.toString())
+        logStarError(TAG, e.message.toString())
     }
 
     if (inputStream != null) {
@@ -43,12 +43,12 @@ fun String?.compareMD5(file: File, name: String? = "", exceptionAction: ((String
         } catch (e: Exception) {
             val error = e.message
             if (error?.contains("End of String") == true) exceptionAction?.invoke(error)
-            logStarError("compareMD5 $name is exception:: ${e.message}")
+            logStarError(TAG, "compareMD5 $name is exception:: ${e.message}")
         } finally {
             inputStream.close()
         }
         return if (fileMD5.isNullOrEmpty()) {
-            logStarError("compareMD5 本地檔案 $name 的 MD5:: $fileMD5")
+            logStarError(TAG, "compareMD5 本地檔案 $name 的 MD5:: $fileMD5")
             false
         } else {
             if (fileMD5.length < 32) {
@@ -62,20 +62,20 @@ fun String?.compareMD5(file: File, name: String? = "", exceptionAction: ((String
             match
         }
     } else {
-        logStarError("compareMD5 $name inputStream:: $inputStream")
+        logStarError(TAG, "compareMD5 $name inputStream:: $inputStream")
         return false
     }
 }
 
 fun String?.compareMD5(localFileUrl: String?, name: String? = "", exceptionAction: ((String) -> Unit)? = null): Boolean {
     return if (this.isNullOrEmpty()) {
-        logStarError("server md5 is null or empty")
+        logStarError(TAG, "server md5 is null or empty")
         false
     } else if (localFileUrl.isNullOrEmpty()) {
-        logStarError("localFileUrl is null or empty")
+        logStarError(TAG, "localFileUrl is null or empty")
         false
     } else if (!File(localFileUrl).exists()) {
-        logStarError("local file is not exist")
+        logStarError(TAG, "local file is not exist")
         false
     } else {
         checkMd5(localFileUrl, name, exceptionAction)
@@ -84,14 +84,14 @@ fun String?.compareMD5(localFileUrl: String?, name: String? = "", exceptionActio
 
 fun String.checkMd5(localFileUrl: String, name: String? = "", exceptionAction: ((String) -> Unit)? = null): Boolean {
     val file = File(localFileUrl)
-    if(DEBUG) logStar("compareMD5 server的MD5:: $this")
+    if(DEBUG) logStar(TAG, "compareMD5 server的MD5:: $this")
     val md = MessageDigest.getInstance("MD5")
     var inputStream: FileInputStream? = null
     var fileMD5: String? = null
     try {
         inputStream = FileInputStream(file)
     } catch (e: Exception) {
-        logStarError(e.message.toString())
+        logStarError(TAG, e.message.toString())
     }
 
     if (inputStream != null) {
@@ -108,12 +108,12 @@ fun String.checkMd5(localFileUrl: String, name: String? = "", exceptionAction: (
         } catch (e: Exception) {
             val error = e.message
             if (error?.contains("End of String") == true) exceptionAction?.invoke(error)
-            logStarError("compareMD5 $name is exception:: ${e.message}")
+            logStarError(TAG, "compareMD5 $name is exception:: ${e.message}")
         } finally {
             inputStream.close()
         }
         return if (fileMD5.isNullOrEmpty()) {
-            logStarError("compareMD5 本地檔案 $name 的 MD5:: $fileMD5")
+            logStarError(TAG, "compareMD5 本地檔案 $name 的 MD5:: $fileMD5")
             false
         } else {
             if (fileMD5.length < 32) {
@@ -127,7 +127,7 @@ fun String.checkMd5(localFileUrl: String, name: String? = "", exceptionAction: (
             match
         }
     } else {
-        logStarError("compareMD5 $name inputStream:: $inputStream")
+        logStarError(TAG, "compareMD5 $name inputStream:: $inputStream")
         return false
     }
 }
