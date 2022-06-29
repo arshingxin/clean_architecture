@@ -1,11 +1,9 @@
 package com.star.cla.log
 
-import android.util.Log
-import com.star.cla.MainApplication
-import com.star.cla.extension.toTimeString
+import timber.log.Timber
 
 fun logStar(msg: String?) {
-    Log.d("star debug", msg.toString())
+    log("star debug", msg.toString())
 }
 
 fun logStarError(msg: String?) {
@@ -13,15 +11,11 @@ fun logStarError(msg: String?) {
     logError("star debug error", msg.toString())
 }
 
-fun logError(tag: String, msg: String) {
-    logStar(msg)
-    Log.e(tag, msg)
+fun log(tag: String, msg: String) {
+    Timber.d("[$tag]$msg")
 }
 
-
-private const val LOG_DATE_FORMAT = "yyyyMMdd"
-//private var LOG_FOLDER_TODAY =
-//    "${MainApplication.ge}/${System.currentTimeMillis().toTimeString(LOG_DATE_FORMAT)}/"
-fun writeErrorLog(tag: String, msg: String?) {
-
+fun logError(tag: String, msg: String) {
+    logStar(msg)
+    Timber.e("[$tag]$msg")
 }

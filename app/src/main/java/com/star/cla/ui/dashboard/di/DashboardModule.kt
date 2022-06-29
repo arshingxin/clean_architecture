@@ -1,6 +1,6 @@
-package com.star.cla.ui.home.di
+package com.star.cla.ui.dashboard.di
 
-import com.star.cla.ui.home.HomeViewModel
+import com.star.cla.ui.dashboard.DashboardViewModel
 import com.star.data.api.AppApiV2
 import com.star.data.repository.DeviceInfoDataRepo
 import com.star.data.repository.IDeviceInfoDataRepo
@@ -10,10 +10,11 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-val homeModule = module {
+
+val dashboardModule = module {
     single<IDeviceInfoDataRepo> { DeviceInfoDataRepo(get(named(AppApiV2::class.java.simpleName))) }
 
     single<IDeviceInfoUseCase> { DeviceInfoUseCase(get()) }
 
-    viewModel { HomeViewModel(get()) }
+    viewModel { DashboardViewModel(get()) }
 }

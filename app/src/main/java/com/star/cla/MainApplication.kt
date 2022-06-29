@@ -17,7 +17,7 @@ import com.star.cla.log.logStar
 import com.star.cla.log.logStarError
 import com.star.cla.utils.NetUtils
 import com.star.data.customconst.PrefsConst
-import leakcanary.LeakCanary
+import com.star.cla.log.TimberLogger
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -89,6 +89,7 @@ class MainApplication: MultiDexApplication(), Application.ActivityLifecycleCallb
         if (AppConfig.Device.SN.isEmpty() || AppConfig.Device.SN == AppConfig.Device.DEFAULT_UNKNOWN_SN)
             AppConfig.Device.SN = AppConfig.Device.MAC
         appSharedPreferences[PrefsConst.App.DEVICE_ID] = AppConfig.Device.SN
+        TimberLogger().setup()
     }
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) { }

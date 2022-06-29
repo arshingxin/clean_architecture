@@ -2,9 +2,9 @@ package com.star.cla.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.star.cla.AutoDisposeViewModel
 import com.star.cla.config.AppConfig
-import com.star.cla.extension.repeatWhenCustom
 import com.star.cla.extension.toJson
 import com.star.cla.log.logStar
 import com.star.domain.interactor.IDeviceInfoUseCase
@@ -21,21 +21,21 @@ class HomeViewModel(private val deviceInfoUseCase: IDeviceInfoUseCase) : AutoDis
 
     override fun resume() {
         val key = "resume"
-        if (DEBUG) logStar("AppConfig.Device.SN:${AppConfig.Device.SN}")
+        if (DEBUG) logStar("resume AppConfig.Device.SN:${AppConfig.Device.SN}")
         deviceInfoUseCase.getDeviceInfo(AppConfig.Device.SN)
             .map {
                 if (DEBUG) logStar(it.toJson())
             }
-            .repeatWhenCustom()
             .subscribeOn(io())
             .add(key, TAG)
     }
 
     override fun pause() {
-
+        if (DEBUG) logStar("pause")
     }
 
     override fun destroy() {
+        if (DEBUG) logStar("destroy")
         onCleared()
     }
 }

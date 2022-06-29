@@ -1,14 +1,8 @@
 package com.star.cla
 
-import android.app.Activity
-import android.widget.Toast
-import com.star.cla.ui.LoadingView
+import androidx.appcompat.app.AppCompatActivity
 
-class BaseActivity : Activity(), LoadingView {
+open class BaseActivity : AppCompatActivity() {
     private val TAG = BaseActivity::class.java.simpleName
-    private val DEBUG = false
-
-    override fun showErrorToast(errorMsg: String) {
-        Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show()
-    }
+    private val DEBUG = true
 }
