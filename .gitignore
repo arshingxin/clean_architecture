@@ -34,6 +34,7 @@ gradle/
 build/
 /build/intermediates/
 buildapk
+data/src/main/java/com/star/data/config/SettingConfig.kt
 
 # Built application files
 *.apk
