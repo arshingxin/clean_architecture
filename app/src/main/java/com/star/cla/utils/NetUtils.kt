@@ -1,6 +1,5 @@
 package com.star.cla.utils
 
-import android.net.TrafficStats
 import com.star.cla.extension.equalsIgnoreCase
 import com.star.cla.log.logStarError
 import java.net.NetworkInterface

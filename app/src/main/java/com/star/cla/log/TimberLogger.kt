@@ -3,7 +3,7 @@ package com.star.cla.log
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
-import com.star.data.BuildConfig
+import com.star.cla.BuildConfig
 import timber.log.Timber
 
 class TimberLogger {

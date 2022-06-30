@@ -13,11 +13,11 @@ import com.star.cla.bus.ForegroundBackgroundStatus
 import com.star.cla.config.AppConfig
 import com.star.cla.di.appModule
 import com.star.cla.extension.*
+import com.star.cla.log.TimberLogger
+import com.star.cla.log.logError
 import com.star.cla.log.logStar
-import com.star.cla.log.logStarError
 import com.star.cla.utils.NetUtils
 import com.star.data.customconst.PrefsConst
-import com.star.cla.log.TimberLogger
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -27,7 +27,7 @@ import xcrash.ICrashCallback
 import xcrash.XCrash
 import java.io.File
 
-class MainApplication: MultiDexApplication(), Application.ActivityLifecycleCallbacks {
+class MainApplication : MultiDexApplication(), Application.ActivityLifecycleCallbacks {
     private val TAG = MainApplication::class.java.simpleName
     private val DEBUG = false
 
@@ -38,11 +38,11 @@ class MainApplication: MultiDexApplication(), Application.ActivityLifecycleCallb
     companion object {
         private var context: Context? = null
         private var mainThreadHandler = Looper.myLooper()?.let { Handler(it) }
-        private var appSharedPreferences: SharedPreferences? = null
 
         fun getApplicationContext() = context
 
-        fun getSharePreferences(): SharedPreferences? = context?.getSharedPreferences(PrefsConst.App.NAME, MODE_PRIVATE)
+        fun getSharePreferences(): SharedPreferences? =
+            context?.getSharedPreferences(PrefsConst.App.NAME, MODE_PRIVATE)
 
         fun getExternalFilePath() = context?.getExternalFilesDir(null)?.absolutePath ?: ""
 
@@ -67,7 +67,7 @@ class MainApplication: MultiDexApplication(), Application.ActivityLifecycleCallb
         crashPath.createDirIfNotExists()
         val callback = ICrashCallback { logPath, emergency ->
             val isNative = File(logPath).readFileAndContainKeyWord("Crash type: 'native'")
-            logStarError(TAG, "logPath: $logPath, emergency: $emergency, isNative: $isNative")
+            logError(TAG, "logPath: $logPath, emergency: $emergency, isNative: $isNative")
             // TODO
         }
         val params = XCrash.InitParameters()
@@ -98,7 +98,7 @@ class MainApplication: MultiDexApplication(), Application.ActivityLifecycleCallb
         TimberLogger().setup()
     }
 
-    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) { }
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
 
     override fun onActivityStarted(activity: Activity) {
         if (++activityReferences == 1 && !isActivityChangingConfigurations) {
@@ -109,9 +109,9 @@ class MainApplication: MultiDexApplication(), Application.ActivityLifecycleCallb
         }
     }
 
-    override fun onActivityResumed(activity: Activity) { }
+    override fun onActivityResumed(activity: Activity) {}
 
-    override fun onActivityPaused(activity: Activity) { }
+    override fun onActivityPaused(activity: Activity) {}
 
     override fun onActivityStopped(activity: Activity) {
         isActivityChangingConfigurations = activity.isChangingConfigurations
@@ -123,7 +123,7 @@ class MainApplication: MultiDexApplication(), Application.ActivityLifecycleCallb
         }
     }
 
-    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) { }
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
 
-    override fun onActivityDestroyed(activity: Activity) { }
+    override fun onActivityDestroyed(activity: Activity) {}
 }

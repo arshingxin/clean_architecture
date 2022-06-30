@@ -2,9 +2,7 @@ package com.star.cla.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.star.cla.AutoDisposeViewModel
-import com.star.cla.MainApplication
 import com.star.cla.config.AppConfig
 import com.star.cla.extension.toJson
 import com.star.cla.log.logStar

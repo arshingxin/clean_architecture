@@ -1,7 +1,5 @@
 package com.star.cla.extension
 
-import android.util.Log
-import com.star.cla.log.logStar
 import com.star.cla.log.logStarError
 import java.io.PrintWriter
 import java.io.StringWriter

@@ -1,7 +1,6 @@
 package com.star.cla.extension
 
 import com.star.cla.log.log
-import com.star.cla.log.logException
 import java.io.PrintWriter
 import java.io.StringWriter
 

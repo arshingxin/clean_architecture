@@ -2,7 +2,6 @@ package com.star.cla.ui.dashboard
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.star.cla.AutoDisposeViewModel
 import com.star.cla.config.AppConfig
 import com.star.cla.extension.toJson
