@@ -1,12 +1,13 @@
 package com.star.cla.utils
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
+import com.star.data.customconst.PrefsConst
 
 object PreferenceHelper {
     fun appPrefs(context: Context): SharedPreferences =
-            PreferenceManager.getDefaultSharedPreferences(context)
+        context.getSharedPreferences(PrefsConst.App.NAME, MODE_PRIVATE)
 
     private inline fun SharedPreferences.edit(operation: (SharedPreferences.Editor) -> Unit) {
         val editor = this.edit()

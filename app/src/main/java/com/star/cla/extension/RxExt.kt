@@ -1,12 +1,12 @@
 package com.star.cla.extension
 
 import com.star.cla.BuildConfig
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.functions.Function
 import java.util.*
 import java.util.concurrent.TimeUnit
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.functions.Function
 
 private const val DEBUG = false
 private const val TAG = "RxExt"
@@ -51,16 +51,16 @@ class RetryWithDelayDefault(
     }
 }
 
-fun <T> Observable<T>.retryWhenCustom(tag: String): Observable<T> {
+fun <T : Any> Observable<T>.retryWhenCustom(tag: String): Observable<T> {
     return retryWhen(RetryWithDelayDefault(tag))
 }
 
-fun <T> Observable<T>.repeatWhenCustom(
+fun <T : Any> Observable<T>.repeatWhenCustom(
     periodTime: Long = 2,
     tu: TimeUnit = if (BuildConfig.DEBUG) TimeUnit.MINUTES else TimeUnit.HOURS
 ) = repeatWhen { it.delay(periodTime, tu) }
 
-fun <T> Observable<T>.delayEach(interval: Long, timeUnit: TimeUnit) =
+fun <T : Any> Observable<T>.delayEach(interval: Long, timeUnit: TimeUnit) =
     Observable.zip(
         this,
         Observable.interval(interval, timeUnit)

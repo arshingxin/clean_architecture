@@ -67,11 +67,11 @@ fun Context.getAndroidId(): String {
 fun Context.getSerial(): String {
     return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O ||
         (this.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
-    )
-        Build.SERIAL.toUpperCase(Locale.ROOT)
-    else {
+    ) {
+        Build.SERIAL.uppercase(Locale.ROOT)
+    } else {
         try {
-            Build.getSerial().toUpperCase(Locale.ROOT)
+            Build.getSerial().uppercase(Locale.ROOT)
         } catch (ex: java.lang.Exception) {
             ex.report("getSerial")
             getAndroidId()

@@ -13,7 +13,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers.io
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.io.FileInputStream
 import java.io.InputStream
@@ -83,10 +83,8 @@ fun String.toFileMultiPart(): MultipartBody.Part {
 }
 
 fun File.toFileMultiPart(): MultipartBody.Part {
-    val requestFile = RequestBody.create(
-        "multipart/form-data".toMediaTypeOrNull(),
-        this
-    )
+    val requestFile = this
+        .asRequestBody("multipart/form-data".toMediaTypeOrNull())
     return MultipartBody.Part.createFormData("file", name, requestFile)
 }
 

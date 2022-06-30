@@ -1,28 +1,28 @@
 package com.star.cla.extension
 
-import android.annotation.SuppressLint
-import android.graphics.Bitmap
 import android.os.Build
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.BackgroundColorSpan
 import android.util.Log
 import androidx.core.text.HtmlCompat
+import com.star.cla.log.log
+import com.star.cla.log.logStar
 import java.security.MessageDigest
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-
 private const val TAG = "StringExt"
 private const val DEBUG = false
 
 fun String.md5() = encrypt(this, "MD5")
 
-fun String.equalsIgnoreCase(other: String) = this.toLowerCase(Locale.ROOT).contentEquals(other.toLowerCase(
-    Locale.ROOT
-)
+fun String.equalsIgnoreCase(other: String) = this.lowercase(Locale.ROOT).contentEquals(
+    other.lowercase(
+        Locale.ROOT
+    )
 )
 
 private fun encrypt(string: String?, type: String): String {
@@ -33,7 +33,6 @@ private fun encrypt(string: String?, type: String): String {
 internal fun bytes2Hex(bts: ByteArray): String {
     var des = ""
     var tmp: String
-
     for (i in bts.indices) {
         tmp = Integer.toHexString(bts[i].toInt() and 0xFF)
         if (tmp.length == 1) {
@@ -41,38 +40,45 @@ internal fun bytes2Hex(bts: ByteArray): String {
         }
         des += tmp
     }
-
     return des
 }
 
 private fun isHttpUrl(url: String?) =
-    null != url && url.toLowerCase(Locale.ROOT).startsWith("http://")
+    null != url && url.lowercase(Locale.ROOT).startsWith("http://")
 
 private fun isHttpsUrl(url: String?) =
-    null != url && url.toLowerCase(Locale.ROOT).startsWith("https://")
+    null != url && url.lowercase(Locale.ROOT).startsWith("https://")
 
 fun String.getFileExt(): String {
     return if (this.lastIndexOf(".") > 0) this.substring(this.lastIndexOf(".") + 1, this.length)
     else this
 }
 
-@SuppressLint("SimpleDateFormat")
 fun String.toTimestampSeconds(format: String = "yyyy/MM/dd HH:mm"): Long {
     val formatter = SimpleDateFormat(format)
     val date = formatter.parse(this)
-    return date.time / 1000L // return seconds
+    return try {
+        date.time / 1000L
+    } catch (e: Exception) {
+        e.log(TAG)
+        throw Exception("${e.message}")
+    }
 }
 
 fun Long.isErrorTimeHint() = this == ERROR_TIME_HINT
 
 val ERROR_TIME_HINT = 556654987L
 
-@SuppressLint("SimpleDateFormat")
 fun String.toTimestamp(format: String = "yyyy/MM/dd HH:mm"): Long {
-    if (this.contains("null") || this.isNullOrEmpty()) return ERROR_TIME_HINT
+    if (contains("null") || isEmpty()) return ERROR_TIME_HINT
     val formatter = SimpleDateFormat(format)
     val date = formatter.parse(this)
-    return date.time // return millisecond
+    return try {
+        date.time
+    } catch (e: Exception) {
+        e.log(TAG)
+        throw Exception("${e.message}")
+    }
 }
 
 private fun toHex(byteArray: ByteArray): String {
@@ -171,8 +177,8 @@ fun String.toDelayTime(): Int {
     val list = s.toCharArray()
     var sum = 0
     list.forEach {
-        sum += it.toInt()
+        sum += it.code
     }
-    Log.i(TAG, "toDelayTime sum: $sum")
+    if (DEBUG) logStar(TAG, "toDelayTime sum: $sum")
     return sum % 10
 }
