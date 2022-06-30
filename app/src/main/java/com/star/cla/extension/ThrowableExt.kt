@@ -11,3 +11,5 @@ fun Throwable.report(tag: String): String {
     return sw.toString()
 }
 
+fun throwException(tag: String, msg: String): Nothing = throw Exception("[$tag]$msg")
+

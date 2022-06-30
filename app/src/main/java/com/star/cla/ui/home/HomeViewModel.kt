@@ -20,23 +20,23 @@ class HomeViewModel(private val deviceInfoUseCase: IDeviceInfoUseCase) : AutoDis
 
     override fun resume() {
         val key = "resume"
-        if (DEBUG) {
-            logStar(TAG, "resume AppConfig.Device.SN:${AppConfig.Device.SN}")
-        }
-        deviceInfoUseCase.getDeviceInfo(AppConfig.Device.SN)
+        deviceInfoUseCase.getLocalDeviceInfo()
             .map {
-                if (DEBUG) logStar(TAG, "getDeviceInfo:${it.toJson()}")
+                if (DEBUG) logStar(TAG, "local device info:${it.toJson()}")
+            }
+            .concatMap { deviceInfoUseCase.getRemoteDeviceInfo(AppConfig.Device.SN) }
+            .map {
+                if (DEBUG) logStar(TAG, "remote device info:${it.toJson()}")
             }
             .subscribeOn(io())
             .add(key, TAG)
     }
 
     override fun pause() {
-        if (DEBUG) logStar(TAG, "pause")
+
     }
 
     override fun destroy() {
-        if (DEBUG) logStar(TAG, "destroy")
         onCleared()
     }
 }

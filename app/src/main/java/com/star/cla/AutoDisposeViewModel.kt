@@ -31,7 +31,7 @@ abstract class AutoDisposeViewModel: ViewModel() {
 
     fun getCurrentTime() = System.currentTimeMillis()
 
-    fun <T> Observable<T>.add(key: String, tag: String = TAG, exceptionAction: (() -> Unit?)? = null): Disposable {
+    fun <T : Any> Observable<T>.add(key: String, tag: String = TAG, exceptionAction: (() -> Unit?)? = null): Disposable {
         disposableMap[key].removeFrom(compositeDisposable)
         return this.subscribe({}, {
             exceptionAction?.invoke()

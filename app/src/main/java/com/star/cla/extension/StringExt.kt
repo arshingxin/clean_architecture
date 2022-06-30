@@ -61,7 +61,7 @@ fun String.toTimestampSeconds(format: String = "yyyy/MM/dd HH:mm"): Long {
         date.time / 1000L
     } catch (e: Exception) {
         e.log(TAG)
-        throw Exception("${e.message}")
+        throwException(TAG, e.message.toString())
     }
 }
 

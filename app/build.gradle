@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -71,7 +73,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.0.0-rc02'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.jakewharton:butterknife:10.2.3'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
+    kapt 'com.jakewharton:butterknife-compiler:10.2.3'
     implementation "androidx.multidex:multidex:2.0.1"
     implementation "com.jakewharton.rxrelay2:rxrelay:2.1.1"
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
@@ -83,7 +85,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.9.0'
     def glide_version = "4.13.0"
     implementation "com.github.bumptech.glide:glide:${glide_version}"
-    annotationProcessor "com.github.bumptech.glide:compiler:${glide_version}"
+    kapt "com.github.bumptech.glide:compiler:${glide_version}"
     def viewpager2_version = '1.1.0-alpha01'
     implementation "androidx.viewpager2:viewpager2:$viewpager2_version"
     // ANR

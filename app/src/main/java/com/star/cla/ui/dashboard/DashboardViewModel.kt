@@ -19,8 +19,7 @@ class DashboardViewModel(private val deviceInfoUseCase: IDeviceInfoUseCase) : Au
 
     override fun resume() {
         val key = "resume"
-        if (DEBUG) logStar(TAG, "resume AppConfig.Device.SN:${AppConfig.Device.SN}")
-        deviceInfoUseCase.getDeviceInfo(AppConfig.Device.SN)
+        deviceInfoUseCase.getRemoteDeviceInfo(AppConfig.Device.SN)
             .map {
                 if (DEBUG) logStar(TAG, "getDeviceInfo:${it.toJson()}")
             }
@@ -29,11 +28,9 @@ class DashboardViewModel(private val deviceInfoUseCase: IDeviceInfoUseCase) : Au
     }
 
     override fun pause() {
-        if (DEBUG) logStar(TAG, "pause")
     }
 
     override fun destroy() {
-        if (DEBUG) logStar(TAG, "destroy")
         onCleared()
     }
 }
