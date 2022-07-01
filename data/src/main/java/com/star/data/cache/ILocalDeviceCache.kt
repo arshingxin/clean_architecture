@@ -16,6 +16,7 @@ interface ILocalDeviceCache {
     fun saveDeviceInfo(content: String)
     fun getDeviceInfo(): Observable<String>
     fun saveDeviceId(id: Int)
+    fun getDeviceId(): String
 }
 
 class LocalDeviceCache : KoinComponent, ILocalDeviceCache {
@@ -32,4 +33,6 @@ class LocalDeviceCache : KoinComponent, ILocalDeviceCache {
     override fun saveDeviceId(id: Int) {
         appPreferences[DEVICE_ID] = id.toString()
     }
+
+    override fun getDeviceId(): String = appPreferences[DEVICE_ID, ""] ?: ""
 }
