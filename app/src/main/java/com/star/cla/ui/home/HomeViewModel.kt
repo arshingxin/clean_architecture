@@ -5,15 +5,18 @@ import androidx.lifecycle.MutableLiveData
 import com.star.cla.AutoDisposeViewModel
 import com.star.cla.config.AppConfig
 import com.star.domain.model.DeviceInfoModel
-import com.star.domain.usecase.IDeviceInfoUseCase
+import com.star.domain.usecase.DeviceInfoUseCase
 import com.star.extension.log.log
 import com.star.extension.log.logStar
 import com.star.extension.toJson
 import io.reactivex.rxjava3.schedulers.Schedulers.io
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class HomeViewModel(private val deviceInfoUseCase: IDeviceInfoUseCase) : AutoDisposeViewModel() {
+class HomeViewModel : KoinComponent, AutoDisposeViewModel() {
     private val TAG = HomeViewModel::class.java.simpleName
     private val DEBUG = true
+    private val deviceInfoUseCase: DeviceInfoUseCase by inject()
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is home Fragment"

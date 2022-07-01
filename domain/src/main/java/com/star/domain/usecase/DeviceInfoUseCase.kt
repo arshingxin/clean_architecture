@@ -1,8 +1,8 @@
 package com.star.domain.usecase
 
 import com.star.data.api.response.DeviceInfo
-import com.star.data.cache.ILocalDeviceCache
-import com.star.data.repository.IDeviceInfoDataRepo
+import com.star.data.cache.LocalDeviceCache
+import com.star.data.repository.DeviceInfoDataRepo
 import com.star.domain.model.DeviceInfoModel
 import com.star.domain.model.toDeviceInfoModel
 import com.star.extension.report
@@ -10,6 +10,8 @@ import com.star.extension.throwException
 import com.star.extension.toDataBean
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers.io
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 interface IDeviceInfoUseCase {
     fun getRemoteDeviceInfo(sn: String): Observable<DeviceInfoModel>
@@ -17,12 +19,11 @@ interface IDeviceInfoUseCase {
     fun getLocalDeviceInfo(): Observable<DeviceInfoModel>
 }
 
-class DeviceInfoUseCase(
-    private val deviceInfoDataRepo: IDeviceInfoDataRepo,
-    private val localDeviceCache: ILocalDeviceCache
-) : IDeviceInfoUseCase {
+class DeviceInfoUseCase : KoinComponent, IDeviceInfoUseCase {
     private val TAG = DeviceInfoUseCase::class.java.simpleName
     private val DEBUG = false
+    private val deviceInfoDataRepo: DeviceInfoDataRepo by inject()
+    private val localDeviceCache: LocalDeviceCache by inject()
 
     override fun getRemoteDeviceInfo(sn: String): Observable<DeviceInfoModel> =
         deviceInfoDataRepo.getDeviceInfo(sn)
