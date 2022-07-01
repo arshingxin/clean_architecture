@@ -5,9 +5,11 @@ import com.star.data.cache.LocalDeviceCache
 import com.star.data.repository.DeviceInfoDataRepo
 import com.star.domain.model.DeviceInfoModel
 import com.star.domain.model.toDeviceInfoModel
+import com.star.extension.log.log
 import com.star.extension.report
 import com.star.extension.throwException
 import com.star.extension.toDataBean
+import com.star.extension.toJson
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers.io
 import org.koin.core.component.KoinComponent
@@ -27,7 +29,16 @@ class DeviceInfoUseCase : KoinComponent, IDeviceInfoUseCase {
 
     override fun getRemoteDeviceInfo(sn: String): Observable<DeviceInfoModel> =
         deviceInfoDataRepo.getDeviceInfo(sn)
-            .map { localDeviceCache.saveDeviceId(it.id) }
+            .map {
+                localDeviceCache.saveDeviceId(it.id)
+                localDeviceCache.saveDeviceInfo(it.toJson())
+            }
+            .onErrorReturn {
+                it.log(TAG, "remote device info error: ${sn.ifEmpty { "設備SN為空的" }}")
+                localDeviceCache.saveDeviceId(-1)
+                localDeviceCache.saveDeviceInfo("")
+                DeviceInfoModel()
+            }
             .concatMap { getLocalDeviceInfo() }
             .subscribeOn(io())
 

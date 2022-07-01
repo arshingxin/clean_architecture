@@ -19,9 +19,21 @@ class DashboardViewModel(private val deviceInfoUseCase: IDeviceInfoUseCase) : Au
 
     override fun resume() {
         val key = "resume"
-        deviceInfoUseCase.getRemoteDeviceInfo(AppConfig.Device.SN)
+        deviceInfoUseCase.getLocalDeviceInfo()
             .map {
-                if (DEBUG) logStar(TAG, "getDeviceInfo:${it.toJson()}")
+                if (it.id == -1) {
+                    if (DEBUG) logStar(TAG, "local device info:未儲存任何資料")
+                } else {
+                    if (DEBUG) logStar(TAG, "local device info:${it.toJson()}")
+                }
+            }
+            .concatMap { deviceInfoUseCase.getRemoteDeviceInfo(AppConfig.Device.SN) }
+            .map {
+                if (it.id == -1) {
+                    if (DEBUG) logStar(TAG, "remote device info:發生錯誤")
+                } else {
+                    if (DEBUG) logStar(TAG, "remote device info:${it.toJson()}")
+                }
             }
             .subscribeOn(Schedulers.io())
             .add(key, TAG)
