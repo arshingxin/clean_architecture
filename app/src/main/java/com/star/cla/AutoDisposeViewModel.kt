@@ -1,9 +1,9 @@
 package com.star.cla
 
 import androidx.lifecycle.ViewModel
-import com.star.cla.extension.addTo
-import com.star.cla.extension.removeFrom
-import com.star.cla.extension.report
+import com.star.extension.addTo
+import com.star.extension.removeFrom
+import com.star.extension.report
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable

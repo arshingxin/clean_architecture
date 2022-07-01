@@ -1,7 +1,7 @@
 package com.star.cla.utils
 
-import com.star.cla.extension.equalsIgnoreCase
-import com.star.cla.log.logStarError
+import com.star.extension.equalsIgnoreCase
+import com.star.extension.log.logStarError
 import java.net.NetworkInterface
 import java.util.*
 

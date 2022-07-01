@@ -12,12 +12,17 @@ import androidx.multidex.MultiDexApplication
 import com.star.cla.bus.ForegroundBackgroundStatus
 import com.star.cla.config.AppConfig
 import com.star.cla.di.appModule
-import com.star.cla.extension.*
-import com.star.cla.log.TimberLogger
-import com.star.cla.log.logError
-import com.star.cla.log.logStar
+import com.star.cla.extension.getSerial
+import com.star.cla.extension.toTimeString
 import com.star.cla.utils.NetUtils
 import com.star.data.customconst.PrefsConst
+import com.star.extension.config.ExtensionConfig
+import com.star.extension.createDirIfNotExists
+import com.star.extension.log.TimberLogger
+import com.star.extension.log.logError
+import com.star.extension.log.logStar
+import com.star.extension.readFileAndContainKeyWord
+import com.star.extension.set
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -88,6 +93,8 @@ class MainApplication : MultiDexApplication(), Application.ActivityLifecycleCall
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
+        ExtensionConfig.Path.fileExternalPath = getExternalFilePath()
+        ExtensionConfig.appSharedPreferences = getSharePreferences()
         triggerDI()
         AppConfig.Device.MAC = NetUtils.getMacAddress()
         AppConfig.Device.SN = getSerial()
@@ -95,7 +102,7 @@ class MainApplication : MultiDexApplication(), Application.ActivityLifecycleCall
         if (AppConfig.Device.SN.isEmpty() || AppConfig.Device.SN == AppConfig.Device.DEFAULT_UNKNOWN_SN)
             AppConfig.Device.SN = AppConfig.Device.MAC
         appSharedPreferences[PrefsConst.App.DEVICE_ID] = AppConfig.Device.SN
-        TimberLogger().setup()
+        TimberLogger().setup(BuildConfig.DEBUG)
     }
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}

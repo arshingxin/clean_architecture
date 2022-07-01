@@ -2,8 +2,8 @@ package com.star.cla
 
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.star.cla.log.logStar
 import com.star.cla.ui.LoadingView
+import com.star.extension.log.logStar
 
 open class BaseFragment: Fragment(), LoadingView {
     private val TAG = BaseFragment::class.java.simpleName

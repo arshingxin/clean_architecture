@@ -4,8 +4,8 @@ import android.content.SharedPreferences
 import com.star.data.customconst.PrefsConst.App.DEVICE_ID
 import com.star.data.customconst.PrefsConst.App.DEVICE_INFO_CONTENT
 import com.star.data.db.device.DeviceDatabase
-import com.star.data.extension.get
-import com.star.data.extension.set
+import com.star.extension.get
+import com.star.extension.set
 import io.reactivex.rxjava3.core.Observable
 
 interface ILocalDeviceCache {

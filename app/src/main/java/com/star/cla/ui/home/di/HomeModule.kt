@@ -7,8 +7,8 @@ import com.star.data.customconst.PrefsConst
 import com.star.data.db.device.DatabaseConst
 import com.star.data.repository.DeviceInfoDataRepo
 import com.star.data.repository.IDeviceInfoDataRepo
-import com.star.domain.interactor.IDeviceInfoUseCase
-import com.star.domain.repository.DeviceInfoUseCase
+import com.star.domain.usecase.DeviceInfoUseCase
+import com.star.domain.usecase.IDeviceInfoUseCase
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module

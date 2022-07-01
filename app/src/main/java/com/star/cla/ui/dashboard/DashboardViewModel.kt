@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.star.cla.AutoDisposeViewModel
 import com.star.cla.config.AppConfig
-import com.star.cla.extension.toJson
-import com.star.cla.log.logStar
-import com.star.domain.interactor.IDeviceInfoUseCase
+import com.star.domain.usecase.IDeviceInfoUseCase
+import com.star.extension.log.logStar
+import com.star.extension.toJson
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class DashboardViewModel(private val deviceInfoUseCase: IDeviceInfoUseCase) : AutoDisposeViewModel() {

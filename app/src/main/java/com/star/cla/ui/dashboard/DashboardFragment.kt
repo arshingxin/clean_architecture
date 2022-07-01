@@ -6,11 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.star.cla.databinding.FragmentDashboardBinding
-import com.star.cla.extension.observe
-import com.star.cla.ui.home.HomeViewModel
-import org.koin.android.ext.android.inject
+import com.star.extension.observe
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DashboardFragment : Fragment() {

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.star.cla.BaseFragment
 import com.star.cla.databinding.FragmentHomeBinding
-import com.star.cla.extension.observe
+import com.star.extension.observe
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment() {
