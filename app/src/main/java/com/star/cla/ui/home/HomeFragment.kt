@@ -74,11 +74,15 @@ class HomeFragment : BaseFragment() {
     override fun showRetry() {
         super.showRetry()
         binding.mainRetryLayout.retryLayout.isVisible = true
+        binding.mainRetryLayout.retryLayout.setOnClickListener {
+            viewModel.resume()
+        }
     }
 
     override fun hideRetry() {
         super.hideRetry()
         binding.mainRetryLayout.retryLayout.isVisible = false
+        binding.mainRetryLayout.retryLayout.setOnClickListener(null)
     }
 
     override fun onResume() {
