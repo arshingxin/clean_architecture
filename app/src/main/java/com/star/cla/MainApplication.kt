@@ -14,6 +14,7 @@ import com.star.cla.config.AppConfig
 import com.star.cla.di.appModule
 import com.star.cla.extension.getSerial
 import com.star.cla.extension.toTimeString
+import com.star.cla.network.detectNetwork
 import com.star.cla.utils.NetUtils
 import com.star.data.customconst.PrefsConst
 import com.star.extension.config.ExtensionConfig
@@ -95,6 +96,7 @@ class MainApplication : MultiDexApplication(), Application.ActivityLifecycleCall
         context = applicationContext
         ExtensionConfig.Path.fileExternalPath = getExternalFilePath()
         ExtensionConfig.appSharedPreferences = getSharePreferences()
+        if (BuildConfig.BUILD_TYPE == "release" || !BuildConfig.RUN_TEST) detectNetwork()
         triggerDI()
         AppConfig.Device.MAC = NetUtils.getMacAddress()
         AppConfig.Device.SN = getSerial()

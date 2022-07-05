@@ -28,7 +28,7 @@ open class BaseFragment: Fragment(), LoadingView {
     }
 
     override fun hideAllView() {
-        hideLoading()
+        hideRetry()
         hideLoading()
     }
 

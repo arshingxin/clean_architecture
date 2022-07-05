@@ -1,4 +1,4 @@
-package com.star.cla.bus
+package com.star.cla.network.bus
 
 import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.Relay

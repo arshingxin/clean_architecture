@@ -2,10 +2,11 @@ package com.star.cla.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import com.star.cla.AutoDisposeViewModel
-import com.star.cla.bus.NetStatusBus
+import com.star.cla.network.bus.NetStatusBus
 import com.star.domain.model.DeviceInfoModel
 import com.star.domain.usecase.DeviceInfoUseCase
 import com.star.extension.log.logStar
+import com.star.extension.report
 import com.star.extension.toJson
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers.io
@@ -20,6 +21,19 @@ open class HomeViewModel : AutoDisposeViewModel() {
 
     init {
         resetValue()
+
+        NetStatusBus
+            .relay()
+            .map {
+                when (it) {
+                    is NetStatusBus.Status.Connected -> {
+                        resume()
+                    }
+                    else -> { }
+                }
+            }
+            .subscribeOn(io.reactivex.schedulers.Schedulers.io())
+            .subscribe({}, { it.report(TAG) })
     }
 
     private fun resetValue() {
@@ -59,11 +73,17 @@ open class HomeViewModel : AutoDisposeViewModel() {
             }
             .map {
                 if (it.id == -1) {
-                    deviceInfoModelLiveData.postValue(ResponseStatus.ShowError("無法取得最新設備資訊!"))
+                    deviceInfoModelLiveData.postValue(ResponseStatus.ShowError("${if (!NetStatusBus.peek()) "[網路未連線]" else ""}無法取得最新設備資訊!"))
                     if (DEBUG) {
                         logStar(TAG, "remote device info:發生錯誤")
-                        logStar(TAG, "remote device info:發生錯誤:deviceInfoModelLiveData.value:${deviceInfoModelLiveData.value}")
-                        logStar(TAG, "remote device info:發生錯誤:tmpDeviceInfoModel:$tmpDeviceInfoModel")
+                        logStar(
+                            TAG,
+                            "remote device info:發生錯誤:deviceInfoModelLiveData.value:${deviceInfoModelLiveData.value}"
+                        )
+                        logStar(
+                            TAG,
+                            "remote device info:發生錯誤:tmpDeviceInfoModel:$tmpDeviceInfoModel"
+                        )
                     }
                     if (tmpDeviceInfoModel.id == -1)
                         deviceInfoModelLiveData.postValue(ResponseStatus.Retry)

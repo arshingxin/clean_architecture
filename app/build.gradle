@@ -1,18 +1,17 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-android-extensions'
     id 'kotlin-kapt'
 }
 
 android {
-    compileSdk 31
+    compileSdk 32
 
     defaultConfig {
         applicationId "com.star.cla"
         multiDexEnabled true
         minSdk 24
-        targetSdk 30
+        targetSdk 32
         versionCode 1
         versionName "1.0.0"
 
@@ -22,6 +21,19 @@ android {
         }
     }
 
+    def KEYSTORE_FILE_PATH = '../buildapk/inforcharge.jks'
+    def KEYSTORE_ALIAS = 'Inforcharge'
+    def KEYSTORE_PASSWORD = 'Inforcharge99'
+    signingConfigs {
+        release {
+            storeFile file("${KEYSTORE_FILE_PATH}")
+            storePassword "${KEYSTORE_PASSWORD}"
+            keyAlias "${KEYSTORE_ALIAS}"
+            keyPassword "${KEYSTORE_PASSWORD}"
+        }
+    }
+
+    def runTest = false
     buildTypes {
         debug {
             debuggable true
@@ -33,11 +45,14 @@ android {
                 // but continue the build even when errors are found:
                 abortOnError false
             }
+            // customize
+            buildConfigField("boolean", "RUN_TEST", "Boolean.parseBoolean(\"$runTest\")")
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
             debuggable false
             minifyEnabled false
+            signingConfig signingConfigs.release
             lintOptions {
                 disable 'MissingTranslation'
                 checkReleaseBuilds false
@@ -45,6 +60,7 @@ android {
                 // but continue the build even when errors are found:
                 abortOnError false
             }
+            buildConfigField("boolean", "RUN_TEST", "Boolean.parseBoolean(\"false\")")
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -78,6 +94,13 @@ dependencies {
     implementation "androidx.multidex:multidex:2.0.1"
     implementation "com.jakewharton.rxrelay2:rxrelay:2.1.1"
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+    // Reactive Network
+    implementation 'com.github.pwittchen:reactivenetwork-rx2:3.0.8'
+    // OkHttp
+    def okhttp_version = '4.9.0' // 4.9.0 / 3.12.1
+    implementation "com.squareup.okhttp3:okhttp:${okhttp_version}"
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:${okhttp_version}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${okhttp_version}"
     def glide_version = "4.13.0"
     implementation "com.github.bumptech.glide:glide:${glide_version}"
     kapt "com.github.bumptech.glide:compiler:${glide_version}"
