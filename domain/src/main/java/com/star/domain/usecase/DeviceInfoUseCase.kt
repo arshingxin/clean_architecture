@@ -21,7 +21,7 @@ interface IDeviceInfoUseCase {
     fun getLocalDeviceInfo(): Observable<DeviceInfoModel>
 }
 
-class DeviceInfoUseCase : KoinComponent, IDeviceInfoUseCase {
+open class DeviceInfoUseCase : KoinComponent, IDeviceInfoUseCase {
     private val TAG = DeviceInfoUseCase::class.java.simpleName
     private val DEBUG = false
     private val deviceInfoDataRepo: DeviceInfoDataRepo by inject()

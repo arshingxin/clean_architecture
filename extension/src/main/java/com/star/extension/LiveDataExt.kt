@@ -8,3 +8,4 @@ fun <T> LifecycleOwner.observe(liveData: LiveData<T>, block: (T) -> Unit) {
         block(it)
     }
 }
+

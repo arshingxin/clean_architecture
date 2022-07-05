@@ -30,6 +30,33 @@ class HomeFragment : BaseFragment() {
         observe(viewModel.text) {
             textView.text = it
         }
+        observe(viewModel.deviceInfoModelLiveData) {
+            when (it) {
+                is HomeViewModel.ResponseStatus.NetFail -> {
+                    showToast("網路未連線, 請檢查網路!")
+                }
+
+                is HomeViewModel.ResponseStatus.Loading -> {
+                    showLoading()
+                }
+
+                is HomeViewModel.ResponseStatus.Success -> {
+                    hideAllView()
+                }
+
+                is HomeViewModel.ResponseStatus.Retry -> {
+                    showRetry()
+                }
+
+                is HomeViewModel.ResponseStatus.ShowError -> {
+                    showToast(it.error)
+                }
+
+                is HomeViewModel.ResponseStatus.Error -> {
+                    showRetry()
+                }
+            }
+        }
         return root
     }
 

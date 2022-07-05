@@ -7,8 +7,9 @@ import com.star.extension.report
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
+import org.koin.core.component.KoinComponent
 
-abstract class AutoDisposeViewModel: ViewModel() {
+abstract class AutoDisposeViewModel: KoinComponent, ViewModel() {
     private val TAG = AutoDisposeViewModel::class.java.simpleName
     open val compositeDisposable = CompositeDisposable()
     open val downloadCompositeDisposable = CompositeDisposable()

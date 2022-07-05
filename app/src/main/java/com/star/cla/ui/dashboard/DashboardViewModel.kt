@@ -1,21 +1,19 @@
 package com.star.cla.ui.dashboard
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.star.cla.AutoDisposeViewModel
 import com.star.cla.config.AppConfig
-import com.star.domain.usecase.IDeviceInfoUseCase
+import com.star.domain.usecase.DeviceInfoUseCase
 import com.star.extension.log.logStar
 import com.star.extension.toJson
-import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.rxjava3.schedulers.Schedulers.io
+import org.koin.core.component.inject
 
-class DashboardViewModel(private val deviceInfoUseCase: IDeviceInfoUseCase) : AutoDisposeViewModel() {
+class DashboardViewModel : AutoDisposeViewModel() {
     private val TAG = DashboardViewModel::class.java.simpleName
     private val DEBUG = true
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
-    }
-    val text: LiveData<String> = _text
+    private val deviceInfoUseCase: DeviceInfoUseCase by inject()
+    val text = MutableLiveData<String>().apply { postValue("This is dashboard Fragment") }
 
     override fun resume() {
         val key = "resume"
@@ -35,7 +33,7 @@ class DashboardViewModel(private val deviceInfoUseCase: IDeviceInfoUseCase) : Au
                     if (DEBUG) logStar(TAG, "remote device info:${it.toJson()}")
                 }
             }
-            .subscribeOn(Schedulers.io())
+            .subscribeOn(io())
             .add(key, TAG)
     }
 

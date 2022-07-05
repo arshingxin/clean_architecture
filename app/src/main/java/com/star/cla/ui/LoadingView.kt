@@ -5,5 +5,6 @@ interface LoadingView {
     fun hideLoading()
     fun showRetry()
     fun hideRetry()
+    fun hideAllView()
     fun showToast(errorMsg: String)
 }

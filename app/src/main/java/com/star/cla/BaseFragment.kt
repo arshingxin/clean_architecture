@@ -11,6 +11,7 @@ open class BaseFragment: Fragment(), LoadingView {
 
     override fun showLoading() {
         if (DEBUG) logStar(TAG, "showLoading")
+        hideAllView()
     }
 
     override fun hideLoading() {
@@ -19,10 +20,16 @@ open class BaseFragment: Fragment(), LoadingView {
 
     override fun showRetry() {
         if (DEBUG) logStar(TAG, "showRetry")
+        hideAllView()
     }
 
     override fun hideRetry() {
         if (DEBUG) logStar(TAG, "hideRetry")
+    }
+
+    override fun hideAllView() {
+        hideLoading()
+        hideLoading()
     }
 
     override fun showToast(errorMsg: String) {
