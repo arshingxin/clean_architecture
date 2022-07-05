@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
 import com.star.cla.BaseFragment
 import com.star.cla.databinding.FragmentHomeBinding
 import com.star.extension.observe
@@ -12,7 +13,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : BaseFragment() {
     private var _binding: FragmentHomeBinding? = null
-    private val viewModel by viewModel<HomeViewModel>()
+    val viewModel by viewModel<HomeViewModel>()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -58,6 +59,26 @@ class HomeFragment : BaseFragment() {
             }
         }
         return root
+    }
+
+    override fun showLoading() {
+        super.showLoading()
+        binding.mainLoadingLayout.loadingLayout.isVisible = true
+    }
+
+    override fun hideLoading() {
+        super.hideLoading()
+        binding.mainLoadingLayout.loadingLayout.isVisible = false
+    }
+
+    override fun showRetry() {
+        super.showRetry()
+        binding.mainRetryLayout.retryLayout.isVisible = true
+    }
+
+    override fun hideRetry() {
+        super.hideRetry()
+        binding.mainRetryLayout.retryLayout.isVisible = false
     }
 
     override fun onResume() {
