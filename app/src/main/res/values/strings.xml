@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">cla</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_home">門市服務</string>
+    <string name="title_dashboard">全台據點</string>
+    <string name="title_notifications">寵物新聞</string>
+    <string name="title_my">我的</string>
 </resources>

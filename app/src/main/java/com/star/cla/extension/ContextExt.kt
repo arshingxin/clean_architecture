@@ -18,7 +18,8 @@ import android.provider.Settings.Secure
 import android.text.format.Formatter.formatIpAddress
 import android.util.Log
 import com.star.cla.BuildConfig
-import com.star.cla.log.logStar
+import com.star.extension.log.logStar
+import com.star.extension.report
 import java.io.File
 import java.util.*
 

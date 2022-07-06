@@ -6,20 +6,20 @@ private val DEBUG = false
 private val TAG = "DeviceInfo"
 
 data class DeviceInfo(
-    @Json(name = "id") val id: Int,
-    @Json(name = "name") val name: String,
-    @Json(name = "sn") val sn: String?,
-    @Json(name = "test_mode") val testMode: Boolean,
+    @Json(name = "id") val id: Int = -1,
+    @Json(name = "name") val name: String = "",
+    @Json(name = "sn") val sn: String? = "",
+    @Json(name = "test_mode") val testMode: Boolean = false,
     @Json(name = "is_stylist_on") val isStylistOn: Boolean? = false,
     @Json(name = "is_scalp_detection_on") val isScalpDetectionOn: Boolean? = false,
     @Json(name = "is_power_saving_on") val isPowerSavingOn: Boolean? = false,
     @Json(name = "is_quick_cut") val isQuickCut: Boolean? = false,
     @Json(name = "power_saving_parameter") val powerSavingParameter: Double? = 0.2,
-    @Json(name = "store_id") val storeId: Int,
+    @Json(name = "store_id") val storeId: Int = -1,
     @Json(name = "area_id") val areaId: Int? = -1,
     @Json(name = "city_id") val cityId: Int? = -1,
     @Json(name = "area_zip_code") val areaZipCode: Int? = -1,
-    @Json(name = "store_name") val storeName: String,
+    @Json(name = "store_name") val storeName: String = "",
     @Json(name = "headquarter_id") val headquarterId: Int? = -1,
     /**
      * vast 相關 start
@@ -39,7 +39,7 @@ data class DeviceInfo(
     @Json(name = "vendor") val vendor: String? = "",
     @Json(name = "version") val version: Int? = -1,
     // 每多久出現一次廣告
-    @Json(name = "program_length") val programLength: Int?,
+    @Json(name = "program_length") val programLength: Int? = -1,
     @Json(name = "tabs") val tabs: List<TabInfo>? = listOf(),
     @Json(name = "periods") val periods: List<PeriodInfo>? = listOf(),
     @Json(name = "latest_app_sn") val latestMirrorVersion: String? = "",

@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
 import com.star.cla.BaseFragment
 import com.star.cla.databinding.FragmentHomeBinding
-import com.star.cla.extension.observe
+import com.star.extension.observe
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class HomeFragment : BaseFragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -30,7 +32,58 @@ class HomeFragment : BaseFragment() {
         observe(viewModel.text) {
             textView.text = it
         }
+        observe(viewModel.deviceInfoModelLiveData) {
+            when (it) {
+                is HomeViewModel.ResponseStatus.NetFail -> {
+                    showToast("網路未連線, 請檢查網路!")
+                }
+
+                is HomeViewModel.ResponseStatus.Loading -> {
+                    showLoading()
+                }
+
+                is HomeViewModel.ResponseStatus.Success -> {
+                    hideAllView()
+                }
+
+                is HomeViewModel.ResponseStatus.Retry -> {
+                    showRetry()
+                }
+
+                is HomeViewModel.ResponseStatus.ShowError -> {
+                    showToast(it.error)
+                }
+
+                is HomeViewModel.ResponseStatus.Error -> {
+                    showRetry()
+                }
+            }
+        }
         return root
+    }
+
+    override fun showLoading() {
+        super.showLoading()
+        binding.mainLoadingLayout.loadingLayout.isVisible = true
+    }
+
+    override fun hideLoading() {
+        super.hideLoading()
+        binding.mainLoadingLayout.loadingLayout.isVisible = false
+    }
+
+    override fun showRetry() {
+        super.showRetry()
+        binding.mainRetryLayout.retryLayout.isVisible = true
+        binding.mainRetryLayout.retryLayout.setOnClickListener {
+            viewModel.resume()
+        }
+    }
+
+    override fun hideRetry() {
+        super.hideRetry()
+        binding.mainRetryLayout.retryLayout.isVisible = false
+        binding.mainRetryLayout.retryLayout.setOnClickListener(null)
     }
 
     override fun onResume() {
@@ -40,16 +93,12 @@ class HomeFragment : BaseFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        viewModel.destroy()
         _binding = null
     }
 
     override fun onPause() {
         super.onPause()
         viewModel.pause()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.destroy()
     }
 }

@@ -4,11 +4,9 @@ import android.graphics.Color
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.JsonQualifier
 import com.squareup.moshi.ToJson
-import java.lang.annotation.Retention
-import java.lang.annotation.RetentionPolicy
 
 @JsonQualifier
-@Retention(RetentionPolicy.RUNTIME)
+@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
 annotation class HexColor
 
 class ColorAdapter {

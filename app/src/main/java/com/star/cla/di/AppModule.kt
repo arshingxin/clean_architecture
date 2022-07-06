@@ -1,15 +1,17 @@
 package com.star.cla.di
 
-import com.star.cla.ui.dashboard.di.dashboardModule
 import com.star.cla.ui.home.di.homeModule
-import com.star.data.di.databaseModule
-import com.star.data.di.networkModule
-import com.star.data.di.preferencesModule
+import com.star.cla.ui.location.di.locationModule
+import com.star.data.di.*
+import com.star.domain.di.useCaseModule
 
 val appModule = listOf(
-    databaseModule,
-    preferencesModule,
     networkModule,
+    databaseModule,
+    remoteRepoModule,
+    preferencesModule,
+    localCacheModule,
+    useCaseModule,
     homeModule,
-    dashboardModule
+    locationModule
 )
