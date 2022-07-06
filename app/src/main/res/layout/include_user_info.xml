@@ -21,7 +21,6 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="東森寵物"
             tools:text="東森寵物"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -34,7 +33,6 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/user_name"
             app:layout_constraintStart_toStartOf="@+id/user_name"
-            android:text="集團員工"
             tools:text="集團員工"
             android:textSize="12sp"
             android:textColor="@color/grey"/>
@@ -92,6 +90,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/new_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -144,6 +143,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/read_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/include_custom_toolbar" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:background="@color/light_grey">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/push_title_layout"
+                layout="@layout/include_setting_title" />
+
+            <include android:id="@+id/push_item_open"
+                layout="@layout/include_setting_switch_button"/>
+
+            <View
+                android:id="@+id/push_layout_divide_line"
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"/>
+
+            <TextView
+                android:id="@+id/push_layout_divide_line_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="* 開啟通知以接收即時交易訊息"
+                android:layout_marginTop="5dp"
+                android:paddingEnd="20dp"
+                android:textSize="12sp"
+                android:gravity="end"
+                android:visibility="gone"/>
+
+            <include android:id="@+id/push_item_marketing"
+                layout="@layout/include_setting_switch_button"/>
+
+            <include android:id="@+id/push_item_news"
+                layout="@layout/include_setting_switch_button"/>
+
+            <include
+                android:id="@+id/other_title_layout"
+                layout="@layout/include_setting_title" />
+
+            <include android:id="@+id/other_item_clean_cache"
+                layout="@layout/include_setting_item"/>
+
+            <include android:id="@+id/other_item_delete_account"
+                layout="@layout/include_setting_item"/>
+
+            <View
+                android:id="@+id/logout_divide_line"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"/>
+
+            <include android:id="@+id/logout_layout"
+                layout="@layout/include_setting_logout"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
