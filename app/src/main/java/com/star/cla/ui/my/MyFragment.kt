@@ -42,7 +42,6 @@ class MyFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-
     }
 
     override fun onDestroyView() {

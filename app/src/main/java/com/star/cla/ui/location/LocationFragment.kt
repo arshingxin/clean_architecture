@@ -43,13 +43,9 @@ class LocationFragment : Fragment() {
         viewModel.pause()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.destroy()
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
+        viewModel.destroy()
         _binding = null
     }
 }
