@@ -1,4 +1,4 @@
-package com.star.cla.ui.dashboard
+package com.star.cla.ui.location
 
 import androidx.lifecycle.MutableLiveData
 import com.star.cla.AutoDisposeViewModel
@@ -12,8 +12,8 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers.io
 import org.koin.core.component.inject
 
-class DashboardViewModel : AutoDisposeViewModel() {
-    private val TAG = DashboardViewModel::class.java.simpleName
+class LocationViewModel : AutoDisposeViewModel() {
+    private val TAG = LocationViewModel::class.java.simpleName
     private val DEBUG = true
     private val deviceInfoUseCase: DeviceInfoUseCase by inject()
     val text = MutableLiveData<String>().apply { postValue("This is dashboard Fragment") }

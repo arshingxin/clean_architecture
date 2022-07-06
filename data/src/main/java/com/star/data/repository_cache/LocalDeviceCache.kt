@@ -1,4 +1,4 @@
-package com.star.data.cache
+package com.star.data.repository_cache
 
 import android.content.SharedPreferences
 import com.star.data.customconst.PrefsConst

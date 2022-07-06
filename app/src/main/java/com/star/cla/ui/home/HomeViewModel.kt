@@ -4,11 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import com.star.cla.AutoDisposeViewModel
 import com.star.cla.network.bus.NetStatusBus
 import com.star.domain.model.DeviceInfoModel
+import com.star.domain.usecase.AdInfoUseCase
 import com.star.domain.usecase.DeviceInfoUseCase
 import com.star.extension.log.logStar
 import com.star.extension.report
-import com.star.extension.toJson
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers.io
 import org.koin.core.component.inject
 
@@ -16,6 +15,7 @@ open class HomeViewModel : AutoDisposeViewModel() {
     private val TAG = HomeViewModel::class.java.simpleName
     private val DEBUG = true
     val deviceInfoUseCase: DeviceInfoUseCase by inject()
+    val adInfoUseCase: AdInfoUseCase by inject()
     val text = MutableLiveData<String>().apply { postValue("This is home Fragment") }
     val deviceInfoModelLiveData = MutableLiveData<ResponseStatus>(ResponseStatus.Loading)
 
@@ -26,9 +26,7 @@ open class HomeViewModel : AutoDisposeViewModel() {
             .relay()
             .map {
                 when (it) {
-                    is NetStatusBus.Status.Connected -> {
-                        resume()
-                    }
+                    is NetStatusBus.Status.Connected -> resume()
                     else -> { }
                 }
             }
@@ -52,52 +50,63 @@ open class HomeViewModel : AutoDisposeViewModel() {
     override fun resume() {
         var tmpDeviceInfoModel = DeviceInfoModel()
         val key = "resume"
-        deviceInfoModelLiveData.postValue(ResponseStatus.Loading)
-        deviceInfoUseCase.getLocalDeviceInfo()
+//        deviceInfoModelLiveData.postValue(ResponseStatus.Loading)
+//        deviceInfoUseCase.getLocalDeviceInfo()
+//            .map {
+//                if (it.id == -1) {
+//                    if (DEBUG) logStar(TAG, "local device info:未儲存任何資料")
+//                    deviceInfoModelLiveData.postValue(ResponseStatus.Retry)
+//                } else {
+//                    if (DEBUG) logStar(TAG, "local device info:${it.toJson()}")
+//                    tmpDeviceInfoModel = it
+//                    deviceInfoModelLiveData.postValue(ResponseStatus.Success(it))
+//                }
+//            }
+//            .concatMap {
+//                if (!NetStatusBus.peek()) {
+//                    deviceInfoModelLiveData.postValue(ResponseStatus.NetFail)
+//                    Observable.just(DeviceInfoModel())
+//                } else
+//                    deviceInfoUseCase.getRemoteDeviceInfo("SMR000275")
+//            }
+//            .map {
+//                if (it.id == -1) {
+//                    deviceInfoModelLiveData.postValue(ResponseStatus.ShowError("${if (!NetStatusBus.peek()) "[網路未連線]" else ""}無法取得最新設備資訊!"))
+//                    if (DEBUG) {
+//                        logStar(TAG, "remote device info:發生錯誤")
+//                        logStar(
+//                            TAG,
+//                            "remote device info:發生錯誤:deviceInfoModelLiveData.value:${deviceInfoModelLiveData.value}"
+//                        )
+//                        logStar(
+//                            TAG,
+//                            "remote device info:發生錯誤:tmpDeviceInfoModel:$tmpDeviceInfoModel"
+//                        )
+//                    }
+//                    if (tmpDeviceInfoModel.id == -1)
+//                        deviceInfoModelLiveData.postValue(ResponseStatus.Retry)
+//                } else {
+//                    if (DEBUG) logStar(TAG, "remote device info:${it.toJson()}")
+//                    deviceInfoModelLiveData.postValue(ResponseStatus.Success(it))
+//                }
+//            }
+//            .subscribeOn(io())
+//            .add(key, TAG)
+
+        adInfoUseCase.getLocalAdInfoList()
             .map {
-                if (it.id == -1) {
-                    if (DEBUG) logStar(TAG, "local device info:未儲存任何資料")
-                    deviceInfoModelLiveData.postValue(ResponseStatus.Retry)
-                } else {
-                    if (DEBUG) logStar(TAG, "local device info:${it.toJson()}")
-                    tmpDeviceInfoModel = it
-                    deviceInfoModelLiveData.postValue(ResponseStatus.Success(it))
-                }
+                if (DEBUG) logStar(TAG, "getLocalAdInfoList: $it")
             }
-            .concatMap {
-                if (!NetStatusBus.peek()) {
-                    deviceInfoModelLiveData.postValue(ResponseStatus.NetFail)
-                    Observable.just(DeviceInfoModel())
-                } else
-                    deviceInfoUseCase.getRemoteDeviceInfo("SMR000275")
-            }
+            .concatMap { adInfoUseCase.getRemoteAdInfoList("SMR000275") }
             .map {
-                if (it.id == -1) {
-                    deviceInfoModelLiveData.postValue(ResponseStatus.ShowError("${if (!NetStatusBus.peek()) "[網路未連線]" else ""}無法取得最新設備資訊!"))
-                    if (DEBUG) {
-                        logStar(TAG, "remote device info:發生錯誤")
-                        logStar(
-                            TAG,
-                            "remote device info:發生錯誤:deviceInfoModelLiveData.value:${deviceInfoModelLiveData.value}"
-                        )
-                        logStar(
-                            TAG,
-                            "remote device info:發生錯誤:tmpDeviceInfoModel:$tmpDeviceInfoModel"
-                        )
-                    }
-                    if (tmpDeviceInfoModel.id == -1)
-                        deviceInfoModelLiveData.postValue(ResponseStatus.Retry)
-                } else {
-                    if (DEBUG) logStar(TAG, "remote device info:${it.toJson()}")
-                    deviceInfoModelLiveData.postValue(ResponseStatus.Success(it))
-                }
+                if (DEBUG) logStar(TAG, "getRemoteAdInfoList: $it")
             }
             .subscribeOn(io())
             .add(key, TAG)
     }
 
     override fun pause() {
-        onCleared()
+        // TODO
     }
 
     override fun destroy() {

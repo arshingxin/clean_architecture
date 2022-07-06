@@ -1,4 +1,4 @@
-package com.star.cla.ui.notifications
+package com.star.cla.ui.my
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.star.cla.databinding.FragmentNotificationsBinding
+import com.star.cla.databinding.FragmentMyBinding
+import com.star.extension.observe
 
-class NotificationsFragment : Fragment() {
+class MyFragment : Fragment() {
 
-    private var _binding: FragmentNotificationsBinding? = null
+    private var _binding: FragmentMyBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,19 +23,26 @@ class NotificationsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
-            ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
-                NotificationsViewModel::class.java
-            )
+        val myViewModel =
+            ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[MyViewModel::class.java]
 
-        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
+        _binding = FragmentMyBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
+        val textView: TextView = binding.textMy
+        observe(myViewModel.text) {
             textView.text = it
         }
         return root
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
     }
 
     override fun onDestroyView() {

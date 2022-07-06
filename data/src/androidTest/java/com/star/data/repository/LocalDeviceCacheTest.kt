@@ -4,8 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.star.data.base.BaseUITest
-import com.star.data.cache.LocalDeviceCache
 import com.star.data.di.*
+import com.star.data.repository_cache.LocalDeviceCache
 import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking
 import org.junit.Before

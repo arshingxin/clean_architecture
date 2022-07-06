@@ -1,7 +1,7 @@
 package com.star.cla.di
 
-import com.star.cla.ui.dashboard.di.dashboardModule
 import com.star.cla.ui.home.di.homeModule
+import com.star.cla.ui.location.di.locationModule
 import com.star.data.di.*
 import com.star.domain.di.useCaseModule
 
@@ -13,5 +13,5 @@ val appModule = listOf(
     localCacheModule,
     useCaseModule,
     homeModule,
-    dashboardModule
+    locationModule
 )

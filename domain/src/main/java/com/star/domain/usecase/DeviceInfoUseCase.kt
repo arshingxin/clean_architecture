@@ -1,8 +1,8 @@
 package com.star.domain.usecase
 
 import com.star.data.api.response.DeviceInfo
-import com.star.data.cache.LocalDeviceCache
 import com.star.data.repository.DeviceInfoDataRepo
+import com.star.data.repository_cache.LocalDeviceCache
 import com.star.domain.model.DeviceInfoModel
 import com.star.domain.model.toDeviceInfoModel
 import com.star.extension.log.log
@@ -21,7 +21,7 @@ interface IDeviceInfoUseCase {
     fun getLocalDeviceInfo(): Observable<DeviceInfoModel>
 }
 
-open class DeviceInfoUseCase : KoinComponent, IDeviceInfoUseCase {
+class DeviceInfoUseCase : KoinComponent, IDeviceInfoUseCase {
     private val TAG = DeviceInfoUseCase::class.java.simpleName
     private val DEBUG = false
     private val deviceInfoDataRepo: DeviceInfoDataRepo by inject()
