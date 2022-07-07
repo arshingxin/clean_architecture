@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.star.cla.databinding.FragmentMyBinding
-import com.star.cla.ui.news_collection.NewsCollectionActivity
-import com.star.cla.ui.no_read_notification.NoReadNotificationActivity
+import com.star.cla.ui.my.news_collection.NewsCollectionActivity
+import com.star.cla.ui.my.no_read_notification.NoReadNotificationActivity
 import com.star.cla.ui.setting.SettingActivity
 import com.star.extension.log.logStar
 import com.star.extension.observe

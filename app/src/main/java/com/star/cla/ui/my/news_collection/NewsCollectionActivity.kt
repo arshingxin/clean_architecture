@@ -1,4 +1,4 @@
-package com.star.cla.ui.news_collection
+package com.star.cla.ui.my.news_collection
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +8,7 @@ import com.star.cla.BuildConfig
 import com.star.cla.R
 import com.star.cla.databinding.ActivityNewsCollectionBinding
 import com.star.cla.extension.setTextColor
-import com.star.cla.ui.news_edit.NewsEditActivity
+import com.star.cla.ui.my.news_edit.NewsEditActivity
 import com.star.extension.log.logStar
 
 /**

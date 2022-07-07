@@ -73,15 +73,15 @@
             android:launchMode="singleTask"
             android:theme="@style/FullscreenTheme" />
         <activity
-            android:name=".ui.news_collection.NewsCollectionActivity"
+            android:name="com.star.cla.ui.my.news_collection.NewsCollectionActivity"
             android:launchMode="singleTask"
             android:theme="@style/FullscreenTheme" />
         <activity
-            android:name=".ui.news_edit.NewsEditActivity"
+            android:name="com.star.cla.ui.my.news_edit.NewsEditActivity"
             android:launchMode="singleTask"
             android:theme="@style/FullscreenTheme" />
         <activity
-            android:name=".ui.no_read_notification.NoReadNotificationActivity"
+            android:name="com.star.cla.ui.my.no_read_notification.NoReadNotificationActivity"
             android:launchMode="singleTask"
             android:theme="@style/FullscreenTheme" />
     </application>

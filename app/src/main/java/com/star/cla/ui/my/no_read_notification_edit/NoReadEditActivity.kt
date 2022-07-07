@@ -1,4 +1,4 @@
-package com.star.cla.ui.news_edit
+package com.star.cla.ui.my.no_read_notification_edit
 
 import android.os.Bundle
 import androidx.core.view.isVisible
@@ -8,8 +8,8 @@ import com.star.cla.databinding.ActivityNewsEditBinding
 import com.star.cla.extension.setTextColor
 import com.star.extension.log.logStar
 
-class NewsEditActivity : BaseActivity() {
-    private val TAG = NewsEditActivity::class.java.simpleName
+class NoReadEditActivity : BaseActivity() {
+    private val TAG = NoReadEditActivity::class.java.simpleName
     private val DEBUG = true
     private var _binding: ActivityNewsEditBinding? = null
     private val binding get() = _binding!!
@@ -23,7 +23,7 @@ class NewsEditActivity : BaseActivity() {
             back.setOnClickListener {
                 finish()
             }
-            title.text = "新聞收藏"
+            title.text = "通知"
         }
         binding.toolbar.actionOne.apply {
             text = "刪除"
