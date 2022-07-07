@@ -1,14 +1,15 @@
 package com.star.cla
 
 import androidx.lifecycle.ViewModel
-import com.star.cla.extension.addTo
-import com.star.cla.extension.removeFrom
-import com.star.cla.extension.report
+import com.star.extension.addTo
+import com.star.extension.removeFrom
+import com.star.extension.report
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
+import org.koin.core.component.KoinComponent
 
-abstract class AutoDisposeViewModel: ViewModel() {
+abstract class AutoDisposeViewModel: KoinComponent, ViewModel() {
     private val TAG = AutoDisposeViewModel::class.java.simpleName
     open val compositeDisposable = CompositeDisposable()
     open val downloadCompositeDisposable = CompositeDisposable()
@@ -31,11 +32,7 @@ abstract class AutoDisposeViewModel: ViewModel() {
 
     fun getCurrentTime() = System.currentTimeMillis()
 
-    open fun onStop(){
-        onCleared()
-    }
-
-    fun <T> Observable<T>.add(key: String, tag: String = TAG, exceptionAction: (() -> Unit?)? = null): Disposable {
+    fun <T : Any> Observable<T>.add(key: String, tag: String = TAG, exceptionAction: (() -> Unit?)? = null): Disposable {
         disposableMap[key].removeFrom(compositeDisposable)
         return this.subscribe({}, {
             exceptionAction?.invoke()

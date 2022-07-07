@@ -3,10 +3,10 @@ package com.star.cla.utils
 import android.annotation.SuppressLint
 import android.content.Context
 import android.provider.Settings
-import com.star.cla.extension.get
-import com.star.cla.extension.md5
-import com.star.cla.extension.set
 import com.star.data.customconst.PrefsConst
+import com.star.extension.get
+import com.star.extension.md5
+import com.star.extension.set
 import java.util.*
 
 object DeviceUtils {

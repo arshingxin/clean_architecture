@@ -1,16 +1,17 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
-    compileSdk 31
+    compileSdk 32
 
     defaultConfig {
         applicationId "com.star.cla"
         multiDexEnabled true
         minSdk 24
-        targetSdk 30
+        targetSdk 32
         versionCode 1
         versionName "1.0.0"
 
@@ -20,6 +21,19 @@ android {
         }
     }
 
+    def KEYSTORE_FILE_PATH = '../buildapk/inforcharge.jks'
+    def KEYSTORE_ALIAS = 'Inforcharge'
+    def KEYSTORE_PASSWORD = 'Inforcharge99'
+    signingConfigs {
+        release {
+            storeFile file("${KEYSTORE_FILE_PATH}")
+            storePassword "${KEYSTORE_PASSWORD}"
+            keyAlias "${KEYSTORE_ALIAS}"
+            keyPassword "${KEYSTORE_PASSWORD}"
+        }
+    }
+
+    def runTest = false
     buildTypes {
         debug {
             debuggable true
@@ -31,11 +45,14 @@ android {
                 // but continue the build even when errors are found:
                 abortOnError false
             }
+            // customize
+            buildConfigField("boolean", "RUN_TEST", "Boolean.parseBoolean(\"$runTest\")")
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
             debuggable false
             minifyEnabled false
+            signingConfig signingConfigs.release
             lintOptions {
                 disable 'MissingTranslation'
                 checkReleaseBuilds false
@@ -43,6 +60,7 @@ android {
                 // but continue the build even when errors are found:
                 abortOnError false
             }
+            buildConfigField("boolean", "RUN_TEST", "Boolean.parseBoolean(\"false\")")
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -61,29 +79,31 @@ android {
 dependencies {
     implementation project(path: ':domain')
     implementation project(path: ':data')
+    implementation project(path: ':extension')
     // debugImplementation because LeakCanary should only run in debug builds.
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.lifecycle:lifecycle-livedata:2.0.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.0.0'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.0.0-rc02'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.0.0-rc02'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.4.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.0'
+    implementation 'com.google.android.material:material:1.6.1'
     implementation 'com.jakewharton:butterknife:10.2.3'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
+    kapt 'com.jakewharton:butterknife-compiler:10.2.3'
     implementation "androidx.multidex:multidex:2.0.1"
     implementation "com.jakewharton.rxrelay2:rxrelay:2.1.1"
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+    // Reactive Network
+    implementation 'com.github.pwittchen:reactivenetwork-rx2:3.0.8'
     // OkHttp
     def okhttp_version = '4.9.0' // 4.9.0 / 3.12.1
     implementation "com.squareup.okhttp3:okhttp:${okhttp_version}"
     implementation "com.squareup.okhttp3:okhttp-urlconnection:${okhttp_version}"
     implementation "com.squareup.okhttp3:logging-interceptor:${okhttp_version}"
-    implementation 'com.google.code.gson:gson:2.9.0'
     def glide_version = "4.13.0"
     implementation "com.github.bumptech.glide:glide:${glide_version}"
-    annotationProcessor "com.github.bumptech.glide:compiler:${glide_version}"
+    kapt "com.github.bumptech.glide:compiler:${glide_version}"
     def viewpager2_version = '1.1.0-alpha01'
     implementation "androidx.viewpager2:viewpager2:$viewpager2_version"
     // ANR
@@ -94,15 +114,35 @@ dependencies {
     def koin_version = '3.2.0'
     // Koin main features for Android
     implementation "io.insert-koin:koin-android:$koin_version"
-    // No more koin-android-viewmodel, koin-android-scope, koin-android-fragment
-    // Java Compatibility
-    implementation "io.insert-koin:koin-android-compat:$koin_version"
-    // Jetpack WorkManager
-    implementation "io.insert-koin:koin-androidx-workmanager:$koin_version"
-    // Navigation Graph
-    implementation "io.insert-koin:koin-androidx-navigation:$koin_version"
     implementation "io.reactivex.rxjava3:rxjava:3.0.0"
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    implementation 'com.google.code.gson:gson:2.9.0'
+    //---------------------------- TESTING ----------------------------//
+    def junit_x_ext = '1.1.1'
+    def testx_rules = '1.3.0'
+    def android_arch_core_testing = '1.1.1'
+    def mockk_version = '1.11.0'
+    def espresso_contrib = '3.3.0'
+    def mockwebserver_version = '4.1.0'
+    def koin_test_version = '3.2.0'
+    def test_runner_version = '1.1.1'
+    def fragment_version = "1.2.4"
+    androidTestImplementation "androidx.fragment:fragment-testing:$fragment_version"
+    // androidTest
+    androidTestImplementation "androidx.test.ext:junit:$junit_x_ext"
+    androidTestImplementation "androidx.test:rules:$testx_rules"
+    androidTestImplementation "android.arch.core:core-testing:$android_arch_core_testing"
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$mockwebserver_version"
+    androidTestImplementation "io.insert-koin:koin-test:$koin_test_version"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_contrib"
+    androidTestImplementation "androidx.test:runner:$test_runner_version"
+    androidTestImplementation "io.mockk:mockk-android:$mockk_version"
+    androidTestImplementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    androidTestImplementation 'io.reactivex.rxjava3:rxjava:3.1.5'
+    androidTestImplementation('org.mockito:mockito-android:4.6.1')
+    // test
+    testImplementation "io.insert-koin:koin-test:$koin_test_version"
+    testImplementation "androidx.test.ext:junit:$junit_x_ext"
+    testImplementation "android.arch.core:core-testing:$android_arch_core_testing"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$mockwebserver_version"
+    testImplementation "androidx.test:runner:$test_runner_version"
 }

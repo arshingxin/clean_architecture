@@ -1,8 +1,7 @@
 package com.star.cla.utils
 
-import android.net.TrafficStats
-import com.star.cla.extension.equalsIgnoreCase
-import com.star.cla.log.logStarError
+import com.star.extension.equalsIgnoreCase
+import com.star.extension.log.logStarError
 import java.net.NetworkInterface
 import java.util.*
 
@@ -27,7 +26,7 @@ object NetUtils {
                 return res1.toString()
             }
         } catch (ex: Exception) {
-            logStarError(ex.message)
+            logStarError(TAG, ex.message)
         }
         return ERROR_MAC
     }

@@ -47,6 +47,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.setting.SettingActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/FullscreenTheme"/>
     </application>
 
 </manifest>

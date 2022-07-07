@@ -2,14 +2,14 @@ package com.star.data.di
 
 import android.content.SharedPreferences
 import android.os.Build
-import com.star.data.BuildConfig
 import com.star.data.config.SettingConfig.Header.AUTHORIZATION
 import com.star.data.config.SettingConfig.Header.HEADER_TOKEN
 import com.star.data.customconst.PrefsConst.App.DEVICE_ID
-import com.star.data.extension.get
+import com.star.extension.get
 import okhttp3.Interceptor
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.BuildConfig
 import java.util.*
 
 interface IInterceptorModule {

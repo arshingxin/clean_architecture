@@ -12,12 +12,18 @@ import androidx.multidex.MultiDexApplication
 import com.star.cla.bus.ForegroundBackgroundStatus
 import com.star.cla.config.AppConfig
 import com.star.cla.di.appModule
-import com.star.cla.extension.*
-import com.star.cla.log.logStar
-import com.star.cla.log.logStarError
+import com.star.cla.extension.getSerial
+import com.star.cla.extension.toTimeString
+import com.star.cla.network.detectNetwork
 import com.star.cla.utils.NetUtils
 import com.star.data.customconst.PrefsConst
-import leakcanary.LeakCanary
+import com.star.extension.config.ExtensionConfig
+import com.star.extension.createDirIfNotExists
+import com.star.extension.log.TimberLogger
+import com.star.extension.log.logError
+import com.star.extension.log.logStar
+import com.star.extension.readFileAndContainKeyWord
+import com.star.extension.set
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -27,7 +33,7 @@ import xcrash.ICrashCallback
 import xcrash.XCrash
 import java.io.File
 
-class MainApplication: MultiDexApplication(), Application.ActivityLifecycleCallbacks {
+class MainApplication : MultiDexApplication(), Application.ActivityLifecycleCallbacks {
     private val TAG = MainApplication::class.java.simpleName
     private val DEBUG = false
 
@@ -36,10 +42,16 @@ class MainApplication: MultiDexApplication(), Application.ActivityLifecycleCallb
     private val appSharedPreferences: SharedPreferences by inject(named(PrefsConst.App.NAME))
 
     companion object {
-        private lateinit var context: Context
+        private var context: Context? = null
         private var mainThreadHandler = Looper.myLooper()?.let { Handler(it) }
+
         fun getApplicationContext() = context
-        fun getMainThreadHandler() = mainThreadHandler
+
+        fun getSharePreferences(): SharedPreferences? =
+            context?.getSharedPreferences(PrefsConst.App.NAME, MODE_PRIVATE)
+
+        fun getExternalFilePath() = context?.getExternalFilesDir(null)?.absolutePath ?: ""
+
         fun uiThread(block: () -> Unit) {
             mainThreadHandler?.post {
                 block.invoke()
@@ -57,11 +69,11 @@ class MainApplication: MultiDexApplication(), Application.ActivityLifecycleCallb
 
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
-        val crashPath = "${getExternalFilesDir(null)}/log/crash"
+        val crashPath = "${getExternalFilePath()}/log/crash"
         crashPath.createDirIfNotExists()
         val callback = ICrashCallback { logPath, emergency ->
             val isNative = File(logPath).readFileAndContainKeyWord("Crash type: 'native'")
-            logStarError("logPath: $logPath, emergency: $emergency, isNative: $isNative")
+            logError(TAG, "logPath: $logPath, emergency: $emergency, isNative: $isNative")
             // TODO
         }
         val params = XCrash.InitParameters()
@@ -82,6 +94,9 @@ class MainApplication: MultiDexApplication(), Application.ActivityLifecycleCallb
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
+        ExtensionConfig.Path.fileExternalPath = getExternalFilePath()
+        ExtensionConfig.appSharedPreferences = getSharePreferences()
+        if (BuildConfig.BUILD_TYPE == "release" || !BuildConfig.RUN_TEST) detectNetwork()
         triggerDI()
         AppConfig.Device.MAC = NetUtils.getMacAddress()
         AppConfig.Device.SN = getSerial()
@@ -89,9 +104,10 @@ class MainApplication: MultiDexApplication(), Application.ActivityLifecycleCallb
         if (AppConfig.Device.SN.isEmpty() || AppConfig.Device.SN == AppConfig.Device.DEFAULT_UNKNOWN_SN)
             AppConfig.Device.SN = AppConfig.Device.MAC
         appSharedPreferences[PrefsConst.App.DEVICE_ID] = AppConfig.Device.SN
+        TimberLogger().setup(BuildConfig.DEBUG)
     }
 
-    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) { }
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
 
     override fun onActivityStarted(activity: Activity) {
         if (++activityReferences == 1 && !isActivityChangingConfigurations) {
@@ -102,21 +118,21 @@ class MainApplication: MultiDexApplication(), Application.ActivityLifecycleCallb
         }
     }
 
-    override fun onActivityResumed(activity: Activity) { }
+    override fun onActivityResumed(activity: Activity) {}
 
-    override fun onActivityPaused(activity: Activity) { }
+    override fun onActivityPaused(activity: Activity) {}
 
     override fun onActivityStopped(activity: Activity) {
         isActivityChangingConfigurations = activity.isChangingConfigurations
         if (--activityReferences == 0 && !isActivityChangingConfigurations) {
-            if (DEBUG) logStar("onActivityStopped:: Background")
+            if (DEBUG) logStar(TAG, "onActivityStopped:: Background")
             // 離開app將log寫入檔案
             ForegroundBackgroundStatus.setIsBackground(true)
             ForegroundBackgroundStatus.post(ForegroundBackgroundStatus.Status.Background)
         }
     }
 
-    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) { }
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
 
-    override fun onActivityDestroyed(activity: Activity) { }
+    override fun onActivityDestroyed(activity: Activity) {}
 }

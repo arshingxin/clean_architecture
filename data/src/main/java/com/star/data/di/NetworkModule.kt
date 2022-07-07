@@ -5,7 +5,7 @@ import android.os.Build
 import com.star.data.api.AppApi
 import com.star.data.api.AppApiV2
 import com.star.data.customconst.PrefsConst
-import com.star.data.extension.report
+import com.star.extension.report
 import okhttp3.*
 import org.koin.core.qualifier.named
 import org.koin.dsl.module

@@ -18,7 +18,8 @@ import android.provider.Settings.Secure
 import android.text.format.Formatter.formatIpAddress
 import android.util.Log
 import com.star.cla.BuildConfig
-import com.star.cla.log.logStar
+import com.star.extension.log.logStar
+import com.star.extension.report
 import java.io.File
 import java.util.*
 
@@ -67,11 +68,11 @@ fun Context.getAndroidId(): String {
 fun Context.getSerial(): String {
     return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O ||
         (this.checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
-    )
-        Build.SERIAL.toUpperCase(Locale.ROOT)
-    else {
+    ) {
+        Build.SERIAL.uppercase(Locale.ROOT)
+    } else {
         try {
-            Build.getSerial().toUpperCase(Locale.ROOT)
+            Build.getSerial().uppercase(Locale.ROOT)
         } catch (ex: java.lang.Exception) {
             ex.report("getSerial")
             getAndroidId()
@@ -130,7 +131,7 @@ fun Context.getCurrentVolume(): Float {
 }
 
 fun Context.setVolume(volume: Int, type: Int = AudioManager.STREAM_MUSIC) {
-    if (DEBUG) logStar("setVolume:: $volume")
+    if (DEBUG) logStar(TAG, "setVolume:: $volume")
     Log.d(TAG, "setVolume:: $volume")
     val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
     // release 才設定預設音量
@@ -157,7 +158,7 @@ fun Context.getAllAppList(): List<ResolveInfo> {
 
 fun Context.setScreenBrightness(screenBrightness: Int = getScreenBrightness()) {
     if (!isCanWriteSettings() || screenBrightness == -1) return
-    if (DEBUG) logStar("setScreenBrightness:$screenBrightness")
+    if (DEBUG) logStar(TAG, "setScreenBrightness:$screenBrightness")
     Settings.System.putInt(
         contentResolver,
         Settings.System.SCREEN_BRIGHTNESS,
