@@ -32,10 +32,10 @@ open class BaseFragment: Fragment(), LoadingView {
         hideLoading()
     }
 
-    override fun showToast(errorMsg: String) {
-        if (DEBUG) logStar(TAG, "showErrorToast $errorMsg")
+    override fun showToast(msg: String) {
+        if (DEBUG) logStar(TAG, "showToast $msg")
         MainApplication.uiThread {
-            Toast.makeText(activity, errorMsg, Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show()
         }
     }
 }

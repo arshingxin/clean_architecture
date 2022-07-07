@@ -3,7 +3,10 @@ package com.star.cla.ui.setting
 import android.os.Bundle
 import androidx.core.view.isVisible
 import com.star.cla.BaseActivity
+import com.star.cla.R
 import com.star.cla.databinding.ActivitySettingBinding
+import com.star.cla.extension.setTextColor
+import com.star.extension.clearCache
 import com.star.extension.log.logStar
 
 class SettingActivity : BaseActivity() {
@@ -48,9 +51,18 @@ class SettingActivity : BaseActivity() {
             }
         }
         binding.otherItemCleanCache.apply {
+            if (cacheDir.length() > 0)
+                binding.otherItemCleanCache.title.setTextColor(applicationContext, R.color.grey)
+            else clearCacheTextColor()
             val msg = "清除快取"
             mainLayout.setOnClickListener {
                 if (DEBUG) logStar(TAG, msg)
+                clearCache { success ->
+                    if (success) {
+                        showToast("已清除快取！")
+                        clearCacheTextColor()
+                    }
+                }
             }
             title.text = msg
         }
@@ -58,13 +70,39 @@ class SettingActivity : BaseActivity() {
             val msg = "申請刪除會員帳號"
             mainLayout.setOnClickListener {
                 if (DEBUG) logStar(TAG, msg)
+                showDialog(
+                    "刪除會員資格",
+                    "刪除帳號將失去會員福利，如已累積的點數’優惠券使用權’分批購商品領取資格等．",
+                    leftButtonText = "取消",
+                    leftButtonAction = {
+                        dialog?.dismiss()
+                    },
+                    rightButtonText = "提出申請",
+                    rightAction = {
+                        if (DEBUG) logStar(TAG, "提出申請")
+                        dialog?.dismiss()
+                    })
             }
             title.text = msg
         }
         binding.logoutLayout.mainLayout.setOnClickListener {
             val msg = "登出"
             if (DEBUG) logStar(TAG, msg)
+            showDialog(
+                contentText = "確定要登出嗎？",
+                leftButtonText = "取消",
+                leftButtonAction = {
+                    dialog?.dismiss()
+                },
+                rightButtonText = "確定",
+                rightAction = {
+                    dialog?.dismiss()
+                })
         }
+    }
+
+    private fun clearCacheTextColor() {
+        binding.otherItemCleanCache.title.setTextColor(applicationContext, R.color.clean_cache)
     }
 
     override fun onDestroy() {

@@ -1,6 +1,7 @@
 package com.star.extension
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -8,6 +9,7 @@ import android.net.Uri
 import android.util.Log
 import com.star.extension.log.logStar
 import com.star.extension.log.logStarError
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers.io
@@ -196,4 +198,20 @@ fun MutableList<Int>.copyRawToFilePath(res: Resources, filePathList: MutableList
         }
         .subscribeOn(io())
         .subscribe({ index++ }, { it.report(TAG) })
+}
+
+private var clearCacheDisposable: Disposable? = null
+fun Context.clearCache(finishAction: ((Boolean) -> Unit?)?) {
+    clearCacheDisposable?.dispose()
+    clearCacheDisposable = Observable
+        .just(true)
+        .map { cacheDir.deleteRecursively() }
+        .subscribeOn(io())
+        .observeOn(mainThread())
+        .subscribe({
+            finishAction?.invoke(true)
+        }, {
+            finishAction?.invoke(false)
+            it.report(TAG) }
+        )
 }
