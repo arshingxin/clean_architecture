@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="96dp"
+    xmlns:tools="http://schemas.android.com/tools"
     android:paddingTop="48px"
     android:paddingStart="10dp"
     android:paddingEnd="10dp">
@@ -29,4 +30,17 @@
         android:textStyle="bold"
         android:textColor="@color/black"
         android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/action_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:textSize="16sp"
+        android:layout_marginEnd="5dp"
+        android:text="編輯"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

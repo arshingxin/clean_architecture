@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.star.cla.databinding.FragmentMyBinding
+import com.star.cla.ui.news_collection.NewsCollectionActivity
+import com.star.cla.ui.no_read_notification.NoReadNotificationActivity
 import com.star.cla.ui.setting.SettingActivity
 import com.star.extension.log.logStar
 import com.star.extension.observe
@@ -44,11 +46,11 @@ class MyFragment : Fragment() {
             }
             newLayout.setOnClickListener {
                 if (DEBUG) logStar(TAG, "新聞收藏")
-                startActivity(Intent(context, SettingActivity::class.java))
+                startActivity(Intent(context, NewsCollectionActivity::class.java))
             }
             readLayout.setOnClickListener {
                 if (DEBUG) logStar(TAG, "未讀通知")
-                startActivity(Intent(context, SettingActivity::class.java))
+                startActivity(Intent(context, NoReadNotificationActivity::class.java))
             }
         }
         observe(viewModel.userNameLiveData) {

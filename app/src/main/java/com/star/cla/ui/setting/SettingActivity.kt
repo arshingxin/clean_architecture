@@ -9,6 +9,9 @@ import com.star.cla.extension.setTextColor
 import com.star.extension.clearCache
 import com.star.extension.log.logStar
 
+/**
+ * 我的 - 我的設定
+ */
 class SettingActivity : BaseActivity() {
     private val TAG = SettingActivity::class.java.simpleName
     private val DEBUG = true
