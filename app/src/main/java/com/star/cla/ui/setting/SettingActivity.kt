@@ -50,6 +50,7 @@ class SettingActivity : BaseActivity() {
                 if (DEBUG) logStar(TAG, "$msg: $isChecked")
             }
         }
+        binding.otherTitleLayout.title.text = "其他功能"
         binding.otherItemCleanCache.apply {
             if (cacheDir.length() > 0)
                 binding.otherItemCleanCache.title.setTextColor(applicationContext, R.color.grey)

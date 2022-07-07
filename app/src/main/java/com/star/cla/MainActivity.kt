@@ -14,7 +14,7 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        showAllBars()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

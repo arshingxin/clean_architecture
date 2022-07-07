@@ -94,6 +94,14 @@ dependencies {
     implementation "androidx.multidex:multidex:2.0.1"
     implementation "com.jakewharton.rxrelay2:rxrelay:2.1.1"
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+    //  --------------------- 處理狀態欄/導航列顏色 -----------------
+    // 基础依赖包，必须要依赖
+    implementation 'com.geyifeng.immersionbar:immersionbar:3.2.2'
+    // kotlin扩展（可选）
+    implementation 'com.geyifeng.immersionbar:immersionbar-ktx:3.2.2'
+    // fragment快速实现（可选）已废弃
+    implementation 'com.geyifeng.immersionbar:immersionbar-components:3.2.2'
+    //  --------------------- 處理狀態欄/導航列顏色 -----------------
     // Reactive Network
     implementation 'com.github.pwittchen:reactivenetwork-rx2:3.0.8'
     // OkHttp

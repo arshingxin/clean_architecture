@@ -52,6 +52,10 @@
             <include android:id="@+id/push_item_news"
                 layout="@layout/include_setting_switch_button"/>
 
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"/>
+
             <include
                 android:id="@+id/other_title_layout"
                 layout="@layout/include_setting_title" />
