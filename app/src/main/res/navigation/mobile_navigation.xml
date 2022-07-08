@@ -13,15 +13,15 @@
 
     <fragment
         android:id="@+id/navigation_location"
-        android:name="com.star.cla.ui.location.LocationFragment"
+        android:name="com.star.cla.ui.store_location.StoreLocationFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_location" />
+        tools:layout="@layout/fragment_store_location" />
 
     <fragment
         android:id="@+id/navigation_news"
-        android:name="com.star.cla.ui.news.NewsFragment"
+        android:name="com.star.cla.ui.pet_news.PetNewsFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_news" />
+        tools:layout="@layout/fragment_pet_news" />
 
     <fragment
         android:id="@+id/navigation_my"

@@ -1,12 +1,15 @@
 package com.star.cla.di
 
 import com.star.cla.ui.home.di.homeModule
-import com.star.cla.ui.location.di.locationModule
 import com.star.cla.ui.my.di.myModule
+import com.star.cla.ui.my.news_collection.di.newsCollectionModule
+import com.star.cla.ui.my.news_collection.news_edit.di.newsEditModule
 import com.star.cla.ui.my.no_read_notification.di.noReadNotificationModule
 import com.star.cla.ui.my.no_read_notification.discount.di.discountModule
+import com.star.cla.ui.my.no_read_notification.no_read_notification_edit.di.noReadEditModule
 import com.star.cla.ui.my.no_read_notification.personal.di.personalModule
 import com.star.cla.ui.my.no_read_notification.pet.di.petModule
+import com.star.cla.ui.store_location.di.storeLocationModule
 import com.star.data.di.*
 import com.star.domain.di.useCaseModule
 
@@ -18,10 +21,13 @@ val appModule = listOf(
     localCacheModule,
     useCaseModule,
     homeModule,
-    locationModule,
+    storeLocationModule,
     myModule,
     noReadNotificationModule,
     discountModule,
     personalModule,
-    petModule
+    petModule,
+    newsCollectionModule,
+    newsEditModule,
+    noReadEditModule
 )

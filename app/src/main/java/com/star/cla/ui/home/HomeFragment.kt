@@ -11,7 +11,9 @@ import com.star.cla.databinding.FragmentHomeBinding
 import com.star.extension.observe
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
+/**
+ * 門市服務
+ */
 class HomeFragment : BaseFragment() {
     private var _binding: FragmentHomeBinding? = null
     private val viewModel by viewModel<HomeViewModel>()

@@ -1,4 +1,4 @@
-package com.star.cla.ui.news
+package com.star.cla.ui.store_location
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,12 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.star.cla.databinding.FragmentNewsBinding
+import com.star.cla.databinding.FragmentStoreLocationBinding
+import com.star.extension.observe
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NewsFragment : Fragment() {
-
-    private var _binding: FragmentNewsBinding? = null
+/**
+ * 全台據點
+ */
+class StoreLocationFragment : Fragment() {
+    private var _binding: FragmentStoreLocationBinding? = null
+    private val viewModel by viewModel<StoreLocationViewModel>()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,17 +26,11 @@ class NewsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
-            ViewModelProvider(
-                this,
-                ViewModelProvider.NewInstanceFactory()
-            )[NewsViewModel::class.java]
-
-        _binding = FragmentNewsBinding.inflate(inflater, container, false)
+        _binding = FragmentStoreLocationBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
+        val textView: TextView = binding.textDashboard
+        observe(viewModel.text) {
             textView.text = it
         }
         return root
@@ -40,10 +38,17 @@ class NewsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        viewModel.resume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.pause()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        viewModel.destroy()
         _binding = null
     }
 }

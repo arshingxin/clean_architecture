@@ -1,4 +1,4 @@
-package com.star.cla.ui.setting
+package com.star.cla.ui.my.setting
 
 import android.os.Bundle
 import androidx.core.view.isVisible

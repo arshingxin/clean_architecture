@@ -69,7 +69,7 @@
             android:theme="@style/Theme.Cla"
             android:launchMode="singleTask" />
         <activity
-            android:name=".ui.setting.SettingActivity"
+            android:name="com.star.cla.ui.my.setting.SettingActivity"
             android:launchMode="singleTask"
             android:theme="@style/FullscreenTheme" />
         <activity
@@ -77,11 +77,15 @@
             android:launchMode="singleTask"
             android:theme="@style/FullscreenTheme" />
         <activity
-            android:name="com.star.cla.ui.my.news_edit.NewsEditActivity"
+            android:name="com.star.cla.ui.my.news_collection.news_edit.NewsEditActivity"
             android:launchMode="singleTask"
             android:theme="@style/FullscreenTheme" />
         <activity
             android:name="com.star.cla.ui.my.no_read_notification.NoReadNotificationActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name="com.star.cla.ui.my.no_read_notification.no_read_notification_edit.NoReadEditActivity"
             android:launchMode="singleTask"
             android:theme="@style/FullscreenTheme" />
     </application>

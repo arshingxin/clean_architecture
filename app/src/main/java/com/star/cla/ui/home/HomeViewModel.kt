@@ -2,13 +2,9 @@ package com.star.cla.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import com.star.cla.AutoDisposeViewModel
-import com.star.cla.network.bus.NetStatusBus
 import com.star.domain.model.DeviceInfoModel
 import com.star.domain.usecase.AdInfoUseCase
 import com.star.domain.usecase.DeviceInfoUseCase
-import com.star.extension.log.logStar
-import com.star.extension.report
-import io.reactivex.rxjava3.schedulers.Schedulers.io
 import org.koin.core.component.inject
 
 open class HomeViewModel : AutoDisposeViewModel() {
@@ -21,17 +17,6 @@ open class HomeViewModel : AutoDisposeViewModel() {
 
     init {
         resetValue()
-
-        NetStatusBus
-            .relay()
-            .map {
-                when (it) {
-                    is NetStatusBus.Status.Connected -> resume()
-                    else -> { }
-                }
-            }
-            .subscribeOn(io.reactivex.schedulers.Schedulers.io())
-            .subscribe({}, { it.report(TAG) })
     }
 
     private fun resetValue() {
@@ -45,6 +30,10 @@ open class HomeViewModel : AutoDisposeViewModel() {
         object Retry : ResponseStatus()
         data class ShowError(val error: String) : ResponseStatus()
         data class Error(val t: Throwable) : ResponseStatus()
+    }
+
+    override fun networkConnected() {
+        resume()
     }
 
     override fun resume() {
@@ -93,16 +82,16 @@ open class HomeViewModel : AutoDisposeViewModel() {
 //            .subscribeOn(io())
 //            .add(key, TAG)
 
-        adInfoUseCase.getLocalAdInfoList()
-            .map {
-                if (DEBUG) logStar(TAG, "getLocalAdInfoList: $it")
-            }
-            .concatMap { adInfoUseCase.getRemoteAdInfoList("SMR000275") }
-            .map {
-                if (DEBUG) logStar(TAG, "getRemoteAdInfoList: $it")
-            }
-            .subscribeOn(io())
-            .add(key, TAG)
+//        adInfoUseCase.getLocalAdInfoList()
+//            .map {
+//                if (DEBUG) logStar(TAG, "getLocalAdInfoList: $it")
+//            }
+//            .concatMap { adInfoUseCase.getRemoteAdInfoList("SMR000275") }
+//            .map {
+//                if (DEBUG) logStar(TAG, "getRemoteAdInfoList: $it")
+//            }
+//            .subscribeOn(io())
+//            .add(key, TAG)
     }
 
     override fun pause() {

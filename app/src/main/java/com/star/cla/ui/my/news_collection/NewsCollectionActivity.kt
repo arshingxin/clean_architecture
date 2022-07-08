@@ -8,8 +8,9 @@ import com.star.cla.BuildConfig
 import com.star.cla.R
 import com.star.cla.databinding.ActivityNewsCollectionBinding
 import com.star.cla.extension.setTextColor
-import com.star.cla.ui.my.news_edit.NewsEditActivity
+import com.star.cla.ui.my.news_collection.news_edit.NewsEditActivity
 import com.star.extension.log.logStar
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * 新聞收藏
@@ -19,6 +20,7 @@ class NewsCollectionActivity : BaseActivity() {
     private val DEBUG = true
     private var _binding: ActivityNewsCollectionBinding? = null
     private val binding get() = _binding!!
+    private val viewModel by viewModel<NewsCollectionViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +46,19 @@ class NewsCollectionActivity : BaseActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.resume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.pause()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+        viewModel.destroy()
         _binding = null
     }
 }

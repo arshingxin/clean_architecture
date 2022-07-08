@@ -8,5 +8,5 @@ interface LoadingView {
     fun showRetry()
     fun hideRetry()
     fun hideAllView()
-    fun showToast(errorMsg: String, duration: Int = Toast.LENGTH_LONG)
+    fun showToast(msg: String, duration: Int = Toast.LENGTH_LONG)
 }

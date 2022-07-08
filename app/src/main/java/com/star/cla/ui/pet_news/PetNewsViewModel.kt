@@ -1,13 +1,13 @@
-package com.star.cla.ui.news
+package com.star.cla.ui.pet_news
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.star.cla.AutoDisposeViewModel
 
-class NewsViewModel : AutoDisposeViewModel() {
+class PetNewsViewModel : AutoDisposeViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        postValue("This is notifications Fragment")
+        postValue("寵物新聞")
     }
     val text: LiveData<String> = _text
     override fun resume() {

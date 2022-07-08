@@ -10,7 +10,7 @@
         layout="@layout/include_custom_toolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/news_edit_list"
+        android:id="@+id/no_read_edit_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
