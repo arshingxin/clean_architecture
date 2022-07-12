@@ -14,12 +14,7 @@ import com.star.extension.toJson
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers.io
 import org.koin.core.component.inject
-import kotlin.collections.MutableList
-import kotlin.collections.forEach
-import kotlin.collections.forEachIndexed
-import kotlin.collections.mutableListOf
 import kotlin.collections.set
-import kotlin.collections.toMutableList
 
 class UserInfoEditViewModel : AutoDisposeViewModel() {
     private val TAG = UserInfoEditViewModel::class.java.simpleName
@@ -40,6 +35,7 @@ class UserInfoEditViewModel : AutoDisposeViewModel() {
     val showErrorToastLiveData = _showErrorToastLiveData
     private var _isChangedLiveData = MutableLiveData<Boolean>()
     val isChangedLiveData = _isChangedLiveData
+    private var zipCodeUIModel: ZipCodeUIModel? = null
 
     override fun init(data: Any?) {
         if (data == null || data !is String || !data.isJson()) {
@@ -117,26 +113,30 @@ class UserInfoEditViewModel : AutoDisposeViewModel() {
                 .map {
                     val data = twZipCodeJson.toDataBean(TwZipCode::class.java)
                     if (DEBUG) logStar(TAG, "parserTwZipCode data: $data")
-                    val zipCodeUIModel = ZipCodeUIModel()
-                    zipCodeUIModel.base = mutableListOf()
-                    zipCodeUIModel.step = StepUIModel()
-                    val stepUIModel = StepUIModel()
-                    stepUIModel.codeList = mutableListOf()
-                    stepUIModel.nameList = mutableListOf()
-                    data?.cities?.forEachIndexed { index, city ->
-                        zipCodeUIModel.base?.add(city.name ?: "")
-                        val codes = mutableListOf<Int>()
-                        val names = mutableListOf<String>()
-                        city.region?.forEach { region ->
-                            codes.add(region.code ?: -1)
-                            names.add(region.name ?: "")
+                    if (zipCodeUIModel == null) {
+                        if (DEBUG) logStar(TAG, "create tw zip code data")
+                        zipCodeUIModel = ZipCodeUIModel()
+                        zipCodeUIModel?.base = mutableListOf()
+                        zipCodeUIModel?.step = StepUIModel()
+                        val stepUIModel = StepUIModel()
+                        stepUIModel.codeList = mutableListOf()
+                        stepUIModel.nameList = mutableListOf()
+                        data?.cities?.forEachIndexed { index, city ->
+                            zipCodeUIModel?.base?.add(city.name ?: "")
+                            val codes = mutableListOf<Int>()
+                            val names = mutableListOf<String>()
+                            city.region?.forEach { region ->
+                                codes.add(region.code ?: -1)
+                                names.add(region.name ?: "")
+                            }
+                            stepUIModel.codeList?.add(index, codes)
+                            stepUIModel.nameList?.add(index, names)
                         }
-                        stepUIModel.codeList?.add(index, codes)
-                        stepUIModel.nameList?.add(index, names)
+                        zipCodeUIModel?.step = stepUIModel
                     }
-                    zipCodeUIModel.step = stepUIModel
-                    _showZipCodeLiveData.postValue(Pair(zipCodeUIModel, position))
+                    _showZipCodeLiveData.postValue(Pair(zipCodeUIModel!!, position))
                 }
+                .subscribeOn(io())
                 .add(key, TAG)
         } else {
             _showErrorToastLiveData.postValue("無法編輯鄉鎮市區!")
