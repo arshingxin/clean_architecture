@@ -2,7 +2,7 @@ package com.star.cla.extension
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.star.cla.BaseFragment
+import com.star.cla.base.BaseFragment
 
 fun Fragment.replaceChildFragment(layoutId: Int, fragment: BaseFragment, data: Bundle? = null) {
     val transaction = childFragmentManager.beginTransaction()

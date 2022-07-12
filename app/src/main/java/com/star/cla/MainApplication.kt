@@ -1,27 +1,23 @@
 package com.star.cla
 
-import android.app.Activity
-import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.multidex.MultiDexApplication
-import com.star.cla.bus.ForegroundBackgroundStatus
+import com.star.cla.backforeground.AppLifecycleObserver
 import com.star.cla.config.AppConfig
 import com.star.cla.di.appModule
 import com.star.cla.extension.getSerial
 import com.star.cla.extension.toTimeString
-import com.star.cla.network.detectNetwork
+import com.star.cla.network.startNetworkMonitor
 import com.star.cla.utils.NetUtils
 import com.star.data.customconst.PrefsConst
 import com.star.extension.config.ExtensionConfig
 import com.star.extension.createDirIfNotExists
 import com.star.extension.log.TimberLogger
 import com.star.extension.log.logError
-import com.star.extension.log.logStar
 import com.star.extension.readFileAndContainKeyWord
 import com.star.extension.set
 import org.koin.android.ext.android.inject
@@ -33,12 +29,9 @@ import xcrash.ICrashCallback
 import xcrash.XCrash
 import java.io.File
 
-class MainApplication : MultiDexApplication(), Application.ActivityLifecycleCallbacks {
+class MainApplication : MultiDexApplication() {
     private val TAG = MainApplication::class.java.simpleName
-    private val DEBUG = false
-
-    private var activityReferences = 0
-    private var isActivityChangingConfigurations = false
+    private val DEBUG = true
     private val appSharedPreferences: SharedPreferences by inject(named(PrefsConst.App.NAME))
 
     companion object {
@@ -96,7 +89,7 @@ class MainApplication : MultiDexApplication(), Application.ActivityLifecycleCall
         context = applicationContext
         ExtensionConfig.Path.fileExternalPath = getExternalFilePath()
         ExtensionConfig.appSharedPreferences = getSharePreferences()
-        if (BuildConfig.BUILD_TYPE == "release" || !BuildConfig.RUN_TEST) detectNetwork()
+        if (BuildConfig.BUILD_TYPE == "release" || !BuildConfig.RUN_TEST) startNetworkMonitor()
         triggerDI()
         AppConfig.Device.MAC = NetUtils.getMacAddress()
         AppConfig.Device.SN = getSerial()
@@ -105,34 +98,6 @@ class MainApplication : MultiDexApplication(), Application.ActivityLifecycleCall
             AppConfig.Device.SN = AppConfig.Device.MAC
         appSharedPreferences[PrefsConst.App.DEVICE_ID] = AppConfig.Device.SN
         TimberLogger().setup(BuildConfig.DEBUG)
+        ProcessLifecycleOwner.get().lifecycle.addObserver(AppLifecycleObserver())
     }
-
-    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
-
-    override fun onActivityStarted(activity: Activity) {
-        if (++activityReferences == 1 && !isActivityChangingConfigurations) {
-            if (DEBUG) Log.i(TAG, "onActivityStarted:: Foreground")
-            // App enters foreground
-            ForegroundBackgroundStatus.setIsBackground(false)
-            ForegroundBackgroundStatus.post(ForegroundBackgroundStatus.Status.Foreground)
-        }
-    }
-
-    override fun onActivityResumed(activity: Activity) {}
-
-    override fun onActivityPaused(activity: Activity) {}
-
-    override fun onActivityStopped(activity: Activity) {
-        isActivityChangingConfigurations = activity.isChangingConfigurations
-        if (--activityReferences == 0 && !isActivityChangingConfigurations) {
-            if (DEBUG) logStar(TAG, "onActivityStopped:: Background")
-            // 離開app將log寫入檔案
-            ForegroundBackgroundStatus.setIsBackground(true)
-            ForegroundBackgroundStatus.post(ForegroundBackgroundStatus.Status.Background)
-        }
-    }
-
-    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
-
-    override fun onActivityDestroyed(activity: Activity) {}
 }

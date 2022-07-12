@@ -2,8 +2,8 @@ package com.star.cla.ui.my.no_read_notification.no_read_notification_edit
 
 import android.os.Bundle
 import androidx.core.view.isVisible
-import com.star.cla.BaseActivity
 import com.star.cla.R
+import com.star.cla.base.BaseActivity
 import com.star.cla.databinding.ActivityNoReadEditBinding
 import com.star.cla.extension.setTextColor
 import com.star.extension.log.logStar

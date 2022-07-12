@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.star.cla">
-
     <uses-permission
         android:name="android.permission.READ_PRIVILEGED_PHONE_STATE"
         tools:ignore="ProtectedPermissions" />
@@ -88,6 +87,21 @@
             android:name="com.star.cla.ui.my.no_read_notification.no_read_notification_edit.NoReadEditActivity"
             android:launchMode="singleTask"
             android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name="com.star.cla.ui.my.user_info.UserInfoActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name="com.star.cla.ui.my.user_info.user_info_edit.UserInfoEditActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/FullscreenTheme" />
+
+        <receiver android:name="com.star.cla.network.NetworkChangeReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

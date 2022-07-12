@@ -1,7 +1,8 @@
-package com.star.cla
+package com.star.cla.base
 
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.star.cla.MainApplication
 import com.star.cla.ui.LoadingView
 import com.star.extension.log.logStar
 

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import com.star.cla.BaseFragment
+import com.star.cla.base.BaseFragment
 import com.star.cla.databinding.FragmentPersonalBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

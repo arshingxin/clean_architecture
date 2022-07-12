@@ -5,6 +5,9 @@ import com.star.cla.AutoDisposeViewModel
 import com.star.domain.model.DeviceInfoModel
 import com.star.domain.usecase.AdInfoUseCase
 import com.star.domain.usecase.DeviceInfoUseCase
+import com.star.extension.log.logStar
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import org.koin.core.component.inject
 
 open class HomeViewModel : AutoDisposeViewModel() {
@@ -34,6 +37,16 @@ open class HomeViewModel : AutoDisposeViewModel() {
 
     override fun networkConnected() {
         resume()
+    }
+    override fun init(data: Any?) {
+        val key = "init"
+        disposableMap[key] = Observable
+            .just(true)
+            .map {
+                if (DEBUG) logStar(TAG, "$key")
+            }
+            .subscribeOn(Schedulers.io())
+            .add(key, TAG)
     }
 
     override fun resume() {

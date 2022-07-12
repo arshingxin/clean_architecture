@@ -9,6 +9,17 @@ class NewsCollectionViewModel: AutoDisposeViewModel() {
     private val TAG = NewsCollectionViewModel::class.java.simpleName
     private val DEBUG = true
 
+    override fun init(data: Any?) {
+        val key = "init"
+        disposableMap[key] = Observable
+            .just(true)
+            .map {
+                if (DEBUG) logStar(TAG, "$key")
+            }
+            .subscribeOn(Schedulers.io())
+            .add(key, TAG)
+    }
+
     override fun resume() {
         val key = "resume"
         disposableMap[key] = Observable

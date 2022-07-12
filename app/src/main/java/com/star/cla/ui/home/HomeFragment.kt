@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.isVisible
-import com.star.cla.BaseFragment
+import com.star.cla.base.BaseFragment
 import com.star.cla.databinding.FragmentHomeBinding
 import com.star.extension.observe
 import org.koin.androidx.viewmodel.ext.android.viewModel

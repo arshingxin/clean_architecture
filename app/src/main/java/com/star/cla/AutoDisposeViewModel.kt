@@ -1,6 +1,8 @@
 package com.star.cla
 
 import androidx.lifecycle.ViewModel
+import com.star.cla.backforeground.BackForegroundStatus
+import com.star.cla.bus.ForegroundBackgroundStatus
 import com.star.cla.network.NetworkStatus
 import com.star.cla.network.bus.NetStatusBus
 import com.star.extension.addTo
@@ -11,7 +13,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import org.koin.core.component.KoinComponent
 
-abstract class AutoDisposeViewModel: KoinComponent, NetworkStatus, ViewModel() {
+abstract class AutoDisposeViewModel: KoinComponent, NetworkStatus, BackForegroundStatus, ViewModel() {
     private val TAG = AutoDisposeViewModel::class.java.simpleName
     open val compositeDisposable = CompositeDisposable()
     open val downloadCompositeDisposable = CompositeDisposable()
@@ -23,10 +25,20 @@ abstract class AutoDisposeViewModel: KoinComponent, NetworkStatus, ViewModel() {
             .map {
                 when (it) {
                     is NetStatusBus.Status.Connected -> networkConnected()
-                    else -> { networkDisconnected() }
+                    else -> networkDisconnected()
                 }
             }
             .subscribeOn(io.reactivex.schedulers.Schedulers.io())
+            .subscribe({}, { it.report(TAG) })
+
+        ForegroundBackgroundStatus
+            .relay()
+            .map {
+                when (it) {
+                    is ForegroundBackgroundStatus.Status.Foreground -> enterForeground()
+                    else -> enterBackground()
+                }
+            }
             .subscribe({}, { it.report(TAG) })
     }
 
@@ -57,6 +69,9 @@ abstract class AutoDisposeViewModel: KoinComponent, NetworkStatus, ViewModel() {
 
     override fun networkConnected() { }
     override fun networkDisconnected() { }
+    override fun enterBackground() { }
+    override fun enterForeground() { }
+    abstract fun init(data: Any? = null)
     abstract fun resume()
     abstract fun pause()
     abstract fun destroy()

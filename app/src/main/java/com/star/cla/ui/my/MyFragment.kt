@@ -10,6 +10,7 @@ import com.star.cla.databinding.FragmentMyBinding
 import com.star.cla.ui.my.news_collection.NewsCollectionActivity
 import com.star.cla.ui.my.no_read_notification.NoReadNotificationActivity
 import com.star.cla.ui.my.setting.SettingActivity
+import com.star.cla.ui.my.user_info.UserInfoActivity
 import com.star.extension.log.logStar
 import com.star.extension.observe
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -54,6 +55,10 @@ class MyFragment : Fragment() {
             readLayout.setOnClickListener {
                 if (DEBUG) logStar(TAG, "未讀通知")
                 startActivity(Intent(context, NoReadNotificationActivity::class.java))
+            }
+            userProfile.setOnClickListener {
+                if (DEBUG) logStar(TAG, "檢視個人資料")
+                startActivity(Intent(context, UserInfoActivity::class.java))
             }
         }
         observe(viewModel.userNameLiveData) {

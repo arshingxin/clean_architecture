@@ -1,4 +1,4 @@
-package com.star.cla
+package com.star.cla.base
 
 import android.app.Activity
 import android.content.Context
@@ -9,10 +9,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.gyf.immersionbar.BarHide
 import com.gyf.immersionbar.ImmersionBar
+import com.star.cla.MainApplication
 import com.star.cla.dialog.CustomDialog
+import com.star.cla.ui.LoadingView
 import com.star.extension.log.logStar
 
-open class BaseActivity : AppCompatActivity() {
+open class BaseActivity : AppCompatActivity(), LoadingView {
     private val TAG = BaseActivity::class.java.simpleName
     private val DEBUG = true
     var dialog: CustomDialog? = null
@@ -50,7 +52,30 @@ open class BaseActivity : AppCompatActivity() {
         dialog = null
     }
 
-    fun showToast(msg: String, duration: Int = Toast.LENGTH_LONG) {
+    override fun showLoading() {
+        if (DEBUG) logStar(TAG, "showLoading")
+        hideAllView()
+    }
+
+    override fun hideLoading() {
+        if (DEBUG) logStar(TAG, "hideLoading")
+    }
+
+    override fun showRetry() {
+        if (DEBUG) logStar(TAG, "showRetry")
+        hideAllView()
+    }
+
+    override fun hideRetry() {
+        if (DEBUG) logStar(TAG, "hideRetry")
+    }
+
+    override fun hideAllView() {
+        hideRetry()
+        hideLoading()
+    }
+
+    override fun showToast(msg: String, duration: Int) {
         if (DEBUG) logStar(TAG, "showToast $msg")
         MainApplication.uiThread {
             Toast.makeText(this, msg, duration).show()

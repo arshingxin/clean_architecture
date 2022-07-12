@@ -3,9 +3,9 @@ package com.star.cla.ui.my.news_collection
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.view.isVisible
-import com.star.cla.BaseActivity
 import com.star.cla.BuildConfig
 import com.star.cla.R
+import com.star.cla.base.BaseActivity
 import com.star.cla.databinding.ActivityNewsCollectionBinding
 import com.star.cla.extension.setTextColor
 import com.star.cla.ui.my.news_collection.news_edit.NewsEditActivity

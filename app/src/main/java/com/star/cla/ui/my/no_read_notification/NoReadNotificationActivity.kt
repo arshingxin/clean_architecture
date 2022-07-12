@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.core.view.isVisible
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.star.cla.BaseActivity
 import com.star.cla.R
+import com.star.cla.base.BaseActivity
 import com.star.cla.databinding.ActivityNoReadNotificationBinding
 import com.star.cla.extension.setTextColor
 import com.star.cla.ui.my.no_read_notification.no_read_notification_edit.NoReadEditActivity

@@ -2,6 +2,7 @@ package com.star.cla
 
 import android.content.Intent
 import android.os.Bundle
+import com.star.cla.base.BaseActivity
 import com.star.cla.databinding.ActivityLandingPageBinding
 import com.star.cla.extension.toImage
 import com.star.extension.observe

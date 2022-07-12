@@ -20,12 +20,14 @@ import android.util.Log
 import com.star.cla.BuildConfig
 import com.star.extension.log.logStar
 import com.star.extension.report
+import java.io.BufferedReader
 import java.io.File
+import java.io.Reader
 import java.util.*
 
 
 private val TAG = "ContextExt"
-private val DEBUG = false
+private val DEBUG = true
 const val RC_PERMISSION_MANAGE_OVERLAY_PERMISSION = 1002
 
 fun getAppVersion() = "${getVersionName()}-${BuildConfig.BUILD_TYPE}, ${getDeviceVersion()}"
@@ -193,4 +195,15 @@ fun <T> Context.startServiceExt(service: Class<T>) {
     } else {
         startService(Intent(this, service))
     }
+}
+
+fun Context.getAssetJson(path: String): String {
+    if(DEBUG) logStar(TAG, "getAssetJson: $path")
+    var content: String
+    val inputStream = assets.open(path)
+    val reader = BufferedReader(inputStream.reader() as Reader?)
+    reader.use { r ->
+        content = r.readText()
+    }
+    return content
 }

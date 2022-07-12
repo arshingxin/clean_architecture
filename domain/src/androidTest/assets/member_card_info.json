@@ -1,0 +1,52 @@
+{
+  "cards": [
+    {
+      "cardName": "基本資料",
+      "cardDetailInfo": [
+        {"title": "姓名", "content": "劉宜鑫", "editable": true, "type": "edit_text"},
+        {"title": "手機號碼", "content": "0963000908"},
+        {"title": "身分證末四碼", "content": "2913"},
+        {"title": "鄉鎮市區", "content": "244新北市林口區", "editable": true, "type": "selection_list", "item_list": { "title": "請選擇鄉鎮市區", "list": []}},
+        {"title": "詳細地址", "content": "文化三路二段22號4樓之3", "editable": true, "type": "edit_text", "hint": "線上購物中獎發票寄送使用，敬請詳填"},
+        {"title": "E-mail", "content": "arshingxin@gmail.com", "editable": true, "type": "edit_text", "hint": "線上購物中獎發票寄送使用，敬請詳填"},
+        {"title": "性別", "content": "生理男性", "editable": true, "type": "bottom_sheet", "item_list": { "title": "選擇性別", "list": ["生理女性","生理男性","未設定"]}},
+        {"title": "生日", "content": "1985/02/03"}
+      ]
+    },
+    {
+      "cardName": "會員卡 東森寵物雲",
+      "cardDetailInfo": [
+        {"title": "會員身分", "content": "集團員工"},
+        {"title": "卡號", "content": "ET00485013"},
+        {"title": "生效日", "content": "2022/06/28"},
+        {"title": "發卡店家", "content": "APP"}
+      ]
+    },
+    {
+      "cardName": "會員卡 金王子",
+      "cardDetailInfo": [
+        {"title": "會員身分", "content": "集團員工"},
+        {"title": "卡號", "content": "GP11612146"},
+        {"title": "生效日", "content": "2022/06/28"},
+        {"title": "發卡店家", "content": "APP"}
+      ]
+    },
+    {
+      "cardName": "會員卡 寵物王國",
+      "cardDetailInfo": [
+        {"title": "會員身分", "content": "集團員工"},
+        {"title": "卡號", "content": "PK11612146"},
+        {"title": "生效日", "content": "2022/06/28"},
+        {"title": "發卡店家", "content": "桃園巨蛋店"}
+      ]
+    }
+  ]
+}
+
+
+
+
+
+
+
+

@@ -46,7 +46,7 @@ open class CustomDialog(
             title.text = titleText
         }
 
-        content = view.findViewById(R.id.content)
+        content = view.findViewById(R.id.content_input)
         if (contentText?.isEmpty() == true)
             content.isVisible = false
         else {

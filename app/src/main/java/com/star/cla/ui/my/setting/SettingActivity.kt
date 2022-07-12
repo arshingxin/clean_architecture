@@ -2,8 +2,8 @@ package com.star.cla.ui.my.setting
 
 import android.os.Bundle
 import androidx.core.view.isVisible
-import com.star.cla.BaseActivity
 import com.star.cla.R
+import com.star.cla.base.BaseActivity
 import com.star.cla.databinding.ActivitySettingBinding
 import com.star.cla.extension.setTextColor
 import com.star.extension.clearCache

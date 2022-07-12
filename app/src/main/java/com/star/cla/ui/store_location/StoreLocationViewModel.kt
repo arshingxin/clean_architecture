@@ -19,6 +19,17 @@ class StoreLocationViewModel : AutoDisposeViewModel() {
     val text = MutableLiveData<String>().apply { postValue("This is dashboard Fragment") }
     val deviceInfoModelLiveData = MutableLiveData<HomeViewModel.ResponseStatus>(HomeViewModel.ResponseStatus.Loading)
 
+    override fun init(data: Any?) {
+        val key = "init"
+        disposableMap[key] = Observable
+            .just(true)
+            .map {
+                if (DEBUG) logStar(TAG, "$key")
+            }
+            .subscribeOn(io())
+            .add(key, TAG)
+    }
+
     override fun resume() {
         var tmpDeviceInfoModel = DeviceInfoModel()
         val key = "resume"
