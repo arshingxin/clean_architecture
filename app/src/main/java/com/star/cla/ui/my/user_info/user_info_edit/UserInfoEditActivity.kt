@@ -34,21 +34,30 @@ class UserInfoEditActivity : BaseActivity() {
     private var customBottomSheetDialog: CustomBottomSheetDialog? = null
     private var userInfoController: UserInfoController? = object : UserInfoController {
         override fun onItemClick(cardDetailInfoModel: MemberCardInfoModel.MemberCardModel.CardDetailInfoModel) {
-            if (DEBUG) logStar(TAG, "onItemClick: [${cardDetailInfoModel.position}]$cardDetailInfoModel")
+            if (DEBUG) logStar(
+                TAG,
+                "onItemClick: [${cardDetailInfoModel.position}]$cardDetailInfoModel"
+            )
             MainApplication.uiThread { hideSoftKeyboard() }
             when (cardDetailInfoModel.type) {
                 MemberDetailInfoType.BottomSheet -> {
                     customBottomSheetDialog?.dismiss()
                     customBottomSheetDialog = CustomBottomSheetDialog(this@UserInfoEditActivity)
-                        .setList(cardDetailInfoModel.item_list?.list?.toMutableList() ?: mutableListOf())
+                        .setList(
+                            cardDetailInfoModel.item_list?.list?.toMutableList() ?: mutableListOf()
+                        )
                         .setTitle(cardDetailInfoModel.item_list?.title ?: "")
-                        .setListener(object : CustomBottomSheetDialog.CustomBottomSheetDialogListener{
+                        .setListener(object :
+                            CustomBottomSheetDialog.CustomBottomSheetDialogListener {
                             override fun onItemClick(data: String) {
                                 customBottomSheetDialog = null
                                 userInfoEditAdapter?.apply {
                                     val refreshPosition = cardDetailInfoModel.position
                                     currentList.getOrElse(refreshPosition) { null }?.content = data
-                                    if (DEBUG) logStar(TAG, "[${refreshPosition}]${currentList.getOrElse(refreshPosition) { null }?.content}")
+                                    if (DEBUG) logStar(
+                                        TAG,
+                                        "[${refreshPosition}]${currentList.getOrElse(refreshPosition) { null }?.content}"
+                                    )
                                     notifyItemChanged(refreshPosition)
                                 }
                             }
@@ -58,7 +67,10 @@ class UserInfoEditActivity : BaseActivity() {
 
                 MemberDetailInfoType.SelectionList -> {
                     if (cardDetailInfoModel.item_list?.title == "請選擇鄉鎮市區") {
-                        viewModel.parserTwZipCode(getAssetJson("tw_zipcodes.json"), cardDetailInfoModel.position)
+                        viewModel.parserTwZipCode(
+                            getAssetJson("tw_zipcodes.json"),
+                            cardDetailInfoModel.position
+                        )
                     } else {
 
                     }
@@ -70,7 +82,8 @@ class UserInfoEditActivity : BaseActivity() {
             cardDetailInfoModel: MemberCardInfoModel.MemberCardModel.CardDetailInfoModel,
             changedText: String
         ) {
-            userInfoEditAdapter?.currentList?.find { it.position == cardDetailInfoModel.position }?.content = changedText
+            userInfoEditAdapter?.currentList?.find { it.position == cardDetailInfoModel.position }?.content =
+                changedText
         }
     }
 
@@ -124,9 +137,15 @@ class UserInfoEditActivity : BaseActivity() {
                 .withInitialStepSelected(0)
                 .withDialogListener(object : OnStepPickListener {
                     override fun onStepPicked(step: Int, pos: Int) {
-                        val city = "${it.first.step?.codeList?.getOrElse(step){ null }?.getOrElse(pos){ null }}" +
+                        val city = "${
+                            it.first.step?.codeList?.getOrElse(step) { null }
+                                ?.getOrElse(pos) { null }
+                        }" +
                                 "${it.first.base?.getOrElse(step) { null }}" +
-                                "${it.first.step?.nameList?.getOrElse(step){ null }?.getOrElse(pos){ null }}"
+                                "${
+                                    it.first.step?.nameList?.getOrElse(step) { null }
+                                        ?.getOrElse(pos) { null }
+                                }"
                         if (DEBUG) logStar(TAG, city)
                         userInfoEditAdapter?.currentList?.filter { cardDetailInfoModel ->
                             cardDetailInfoModel.title == "鄉鎮市區"
@@ -148,9 +167,21 @@ class UserInfoEditActivity : BaseActivity() {
         observe(viewModel.isChangedLiveData) {
             viewModel.postSaveUserInfo()
         }
+        observe(viewModel.showExitDialogLiveData) {
+            if (it) {
+                showDialog("確定要離開編輯嗎?",
+                    "還沒有儲存，確定要捨棄變更",
+                    "取消", {
+                        dialog?.dismiss()
+                    },
+                    "捨棄", {
+                        finish()
+                    })
+            } else finish()
+        }
         binding.toolbar.apply {
             back.setOnClickListener {
-                finish()
+                viewModel.showExitDialog(userInfoEditAdapter?.currentList?.toJson())
             }
             title.text = "編輯基本資料"
             actionOne.apply {
@@ -215,7 +246,7 @@ class UserInfoEditActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
         if (DEBUG) logStar(TAG, "onBackPressed")
+        viewModel.showExitDialog(userInfoEditAdapter?.currentList?.toJson())
     }
 }

@@ -82,11 +82,6 @@ open class BaseActivity : AppCompatActivity(), LoadingView {
         }
     }
 
-    override fun onDestroy() {
-        closeDialog()
-        super.onDestroy()
-    }
-
     fun Activity.hideAllBars() {
         ImmersionBar.with(this)
             .fullScreen(true)

@@ -36,6 +36,8 @@ class UserInfoEditViewModel : AutoDisposeViewModel() {
     private var _isChangedLiveData = MutableLiveData<Boolean>()
     val isChangedLiveData = _isChangedLiveData
     private var zipCodeUIModel: ZipCodeUIModel? = null
+    private var _showExitDialogLiveData = MutableLiveData<Boolean>()
+    val showExitDialogLiveData = _showExitDialogLiveData
 
     override fun init(data: Any?) {
         if (data == null || data !is String || !data.isJson()) {
@@ -160,6 +162,22 @@ class UserInfoEditViewModel : AutoDisposeViewModel() {
                 } else {
                     if (DEBUG) logStar(TAG, "基本資已變更, 需打API")
                     _isChangedLiveData.postValue(true)
+                }
+            }
+            .subscribeOn(io())
+            .add(key, TAG)
+    }
+
+    fun showExitDialog(currentEditJson: String?) {
+        val key = "showExitDialog"
+        disposableMap[key] = Observable
+            .just(true)
+            .map {
+                if (initEditJson == currentEditJson) {
+                    if (DEBUG) logStar(TAG, "基本資料未變更")
+                    _showExitDialogLiveData.postValue(false)
+                } else {
+                    _showExitDialogLiveData.postValue(true)
                 }
             }
             .subscribeOn(io())
