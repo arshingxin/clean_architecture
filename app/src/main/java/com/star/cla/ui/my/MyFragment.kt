@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.star.cla.databinding.FragmentMyBinding
+import com.star.cla.extension.getAssetJson
 import com.star.cla.ui.my.news_collection.NewsCollectionActivity
 import com.star.cla.ui.my.no_read_notification.NoReadNotificationActivity
 import com.star.cla.ui.my.setting.SettingActivity
@@ -67,6 +68,11 @@ class MyFragment : Fragment() {
         observe(viewModel.userSubNameLiveData) {
             binding.userInfoLayout.userSubName.text = it
         }
+        observe(viewModel.showMyLiveData) {
+            // TODO
+
+        }
+        viewModel.init(context?.getAssetJson("member_service.json"))
     }
 
     override fun onResume() {
